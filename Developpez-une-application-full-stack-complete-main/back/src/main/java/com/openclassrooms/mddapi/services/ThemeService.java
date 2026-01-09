@@ -49,16 +49,11 @@ public class ThemeService {
 	
 	
 	public List<ThemeDTO> getUserSubscriptions(Long userId) {
-		List<Theme> themes = themeRepository.findAll();
-	    // On récupère les ID des theme suivie par utilisateur
-	    Set<Long> subscribedThemes = userRepository.findSubscribedThemeIdsByUserId(userId); 
+		List<Theme> subscribedThemes = themeRepository.findByUsersId(userId);
 	    
 	    // On les transforme en DTO 
-	    return themes.stream()
-	        .map(theme -> ThemeDTO.fromEntity(theme, subscribedThemes))
+	    return subscribedThemes.stream()
+	        .map(theme -> ThemeDTO.fromEntity(theme, Collections.singletonList(theme.getId())))
 	        .collect(Collectors.toList());
 	}
-	
-	
-
 }
