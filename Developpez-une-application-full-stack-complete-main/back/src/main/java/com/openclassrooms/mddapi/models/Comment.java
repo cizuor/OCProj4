@@ -19,26 +19,26 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class Comment {
-	 @Id
-	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    private Long id;
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	    @NotBlank
-	    @Size(max = 500)
-	    @Column(nullable = false, length = 500)
-	    private String contenu;
+    @NotBlank
+    @Size(max = 500)
+    @Column(nullable = false, length = 500)
+    private String contenu;
 
-	    @NotNull
-	    @ManyToOne(fetch = FetchType.LAZY)
-	    @JoinColumn(name = "author_id", nullable = false)
-	    private User author;
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id", nullable = false)
+    private User author;
 
-	    @NotNull
-	    @ManyToOne(fetch = FetchType.LAZY)
-	    @JoinColumn(name = "post_id", nullable = false)
-	    private Post post;
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id", nullable = false)
+    private Post post;
 
-	    @CreationTimestamp
-	    @Column(updatable = false, nullable = false)
-	    private LocalDateTime createdAt;
+    @CreationTimestamp
+    @Column(updatable = false, nullable = false)
+    private LocalDateTime createdAt;
 }
