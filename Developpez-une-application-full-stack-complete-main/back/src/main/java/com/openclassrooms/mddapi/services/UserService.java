@@ -21,7 +21,7 @@ public class UserService {
 	    @Autowired
 	    private ThemeRepository themeRepository;
 
-	    public UserDTO findByID(Long id) {
+	    public UserDTO getUserById(Long id) {
 	        User user = findEntityById(id);
 	        return UserDTO.fromEntity(user);
 	    }

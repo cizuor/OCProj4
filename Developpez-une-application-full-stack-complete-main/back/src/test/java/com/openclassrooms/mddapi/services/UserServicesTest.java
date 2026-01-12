@@ -54,7 +54,7 @@ public class UserServicesTest {
     @Test
     void findByID_ShouldReturnUserDTO_WhenUserExists() {
     	// ACT
-        UserDTO result = userService.findByID(testUser.getId());
+        UserDTO result = userService.getUserById(testUser.getId());
 
         // ASSERT
         assertThat(result).isNotNull();
@@ -66,7 +66,7 @@ public class UserServicesTest {
     void findByID_ShouldThrowException_WhenUserDoesNotExist() {
     	// ACT & ASSERT
         assertThrows(EntityNotFoundException.class, () -> {
-            userService.findByID(999L);
+            userService.getUserById(999L);
         });
     }
 

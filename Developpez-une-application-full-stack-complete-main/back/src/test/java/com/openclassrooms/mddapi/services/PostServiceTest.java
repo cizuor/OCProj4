@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.openclassrooms.mddapi.dto.PostDTO;
 import com.openclassrooms.mddapi.models.Post;
 import com.openclassrooms.mddapi.models.Theme;
 import com.openclassrooms.mddapi.models.User;
@@ -67,7 +68,7 @@ public class PostServiceTest {
     @Test
     void findByID_ShouldReturnPost_WhenExists() {
     	// ACT
-        Post found = postService.findByID(savedPost.getId());
+        PostDTO found = postService.findByID(savedPost.getId());
         // ASSERT
         assertThat(found).isNotNull();
         assertThat(found.getTitre()).isEqualTo("Premier Post");
@@ -84,7 +85,7 @@ public class PostServiceTest {
     @Test
     void findAll_ShouldReturnListWithAtLeastOnePost() {
     	// ACT
-        List<Post> posts = postService.findAll();
+        List<PostDTO> posts = postService.findAll();
         // ASSERT
         assertThat(posts).isNotEmpty();
         assertThat(posts.size()).isGreaterThanOrEqualTo(1);
@@ -99,8 +100,10 @@ public class PostServiceTest {
         newPost.setAuteur(author);
         newPost.setTheme(themeAngular);
         
+        PostDTO postDto = PostDTO.fromEntity(newPost);
+        
         // ACT
-        Post created = postService.create(newPost);
+        PostDTO created = postService.create(postDto);
 
         // ASSERT
         assertThat(created.getId()).isNotNull();
@@ -110,7 +113,7 @@ public class PostServiceTest {
     @Test
     void findByThemeId_ShouldFilterPosts() {
     	// ACT
-        List<Post> results = postService.findByThemeId(Arrays.asList(themeJava.getId()));
+        List<PostDTO> results = postService.findByThemeId(Arrays.asList(themeJava.getId()));
         // ASSERT
         assertThat(results).hasSize(1);
         assertThat(results.get(0).getTitre()).isEqualTo("Premier Post");
@@ -124,9 +127,11 @@ public class PostServiceTest {
         updateInfo.setContenu("Contenu Modifié");
         updateInfo.setTheme(themeJava);
         updateInfo.setAuteur(author);
+        
+        PostDTO postDto = PostDTO.fromEntity(updateInfo);
 
         // ACT
-        Post updated = postService.update(savedPost.getId(), updateInfo);
+        PostDTO updated = postService.update(savedPost.getId(), postDto,author.getId());
 
         // ASSERT
         assertThat(updated.getTitre()).isEqualTo("Titre Modifié");
@@ -139,7 +144,7 @@ public class PostServiceTest {
     @Test
     void delete_ShouldRemovePost() {
     	// ACT
-        postService.delete(savedPost);
+        postService.delete(savedPost.getId(),savedPost.getAuteur().getId());
 
         // ASSERT
         assertThat(postRepository.findById(savedPost.getId())).isEmpty();
@@ -158,7 +163,7 @@ public class PostServiceTest {
         postRepository.save(secondPost);
 
         // ACT
-        List<Post> results = postService.findByThemeIdOrderByCreateAtAsc(Arrays.asList(themeJava.getId()));
+        List<PostDTO> results = postService.findByThemeIdOrderByCreateAtAsc(Arrays.asList(themeJava.getId()));
 
         // ASSERT
         assertThat(results).hasSize(2);
