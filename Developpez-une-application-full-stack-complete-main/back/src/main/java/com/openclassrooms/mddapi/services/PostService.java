@@ -3,7 +3,7 @@ package com.openclassrooms.mddapi.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.persistence.EntityNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.access.AccessDeniedException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +12,10 @@ import org.springframework.stereotype.Service;
 
 import com.openclassrooms.mddapi.dto.PostDTO;
 import com.openclassrooms.mddapi.models.Post;
-import com.openclassrooms.mddapi.models.Theme;
+import com.openclassrooms.mddapi.models.Topic;
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.repository.PostRepository;
-import com.openclassrooms.mddapi.repository.ThemeRepository;
+import com.openclassrooms.mddapi.repository.TopicRepository;
 import com.openclassrooms.mddapi.repository.UserRepository;
 
 @Service
@@ -28,7 +28,7 @@ public class PostService {
     private UserRepository userRepository;
 
     @Autowired
-    private ThemeRepository themeRepository;
+    private TopicRepository themeRepository;
 	
 	public PostDTO findByID(Long id){
 		Post post = postRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Post non trouvé"));
@@ -58,14 +58,14 @@ public class PostService {
 		
 		User user = userRepository.findById(postDto.getUserID())
                 .orElseThrow(() -> new EntityNotFoundException("Auteur non trouvé"));
-        Theme theme = themeRepository.findById(postDto.getThemeId())
+        Topic theme = themeRepository.findById(postDto.getTopicId())
                 .orElseThrow(() -> new EntityNotFoundException("Thème non trouvé"));
         
         Post post = new Post();
         post.setTitre(postDto.getTitre());
         post.setContenu(postDto.getContenu());
         post.setAuteur(user);
-        post.setTheme(theme);
+        post.setTopic(theme);
         
         Post savedPost = postRepository.save(post);
 		
@@ -97,10 +97,10 @@ public class PostService {
         existingPost.setContenu(postDto.getContenu());
         
         
-        if(!existingPost.getTheme().getId().equals(postDto.getThemeId())) {
-            Theme theme = themeRepository.findById(postDto.getThemeId())
+        if(!existingPost.getTopic().getId().equals(postDto.getTopicId())) {
+            Topic theme = themeRepository.findById(postDto.getTopicId())
                 .orElseThrow(() -> new EntityNotFoundException("Thème non trouvé"));
-            existingPost.setTheme(theme);
+            existingPost.setTopic(theme);
         }
         return PostDTO.fromEntity(postRepository.save(existingPost));
 	}

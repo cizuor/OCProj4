@@ -2,11 +2,9 @@ package com.openclassrooms.mddapi.dto;
 
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
-import javax.validation.constraints.NotBlank;
+
+import jakarta.validation.constraints.NotBlank;
 
 import com.openclassrooms.mddapi.models.User;
 

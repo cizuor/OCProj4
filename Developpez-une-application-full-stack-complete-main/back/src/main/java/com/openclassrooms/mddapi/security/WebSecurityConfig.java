@@ -1,6 +1,6 @@
 package com.openclassrooms.mddapi.security;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -40,8 +40,8 @@ public class WebSecurityConfig {
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         
-        authProvider.setUserDetailsService(userDetailsService); // Lie votre service BDD
-        authProvider.setPasswordEncoder(passwordEncoder());    // Lie BCrypt
+        authProvider.setUserDetailsService(userDetailsService); 
+        authProvider.setPasswordEncoder(passwordEncoder());    
         
         return authProvider;
     }
@@ -55,20 +55,16 @@ public class WebSecurityConfig {
 	@Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .cors().and().csrf().disable() 
-            .exceptionHandling()
-            .authenticationEntryPoint((request, response, authException) -> {
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized");
-            })
-            .and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            .authorizeRequests()
-                .antMatchers("/api/auth/**").permitAll()
-                .antMatchers("/h2-console/**").permitAll() 
-                .anyRequest().authenticated();
+        	.csrf(csrf -> csrf.disable())
+            .cors(cors -> cors.configure(http))
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(auth -> auth
+                    .requestMatchers("/api/auth/**").permitAll()
+                    .requestMatchers("/h2-console/**").permitAll()
+                    .anyRequest().authenticated()
+                );
 
-        http.headers().frameOptions().disable();
+        http.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
         
         http.authenticationProvider(authenticationProvider());
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

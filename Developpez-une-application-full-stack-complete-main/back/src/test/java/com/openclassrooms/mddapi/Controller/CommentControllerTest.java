@@ -25,11 +25,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openclassrooms.mddapi.dto.CommentDTO;
 import com.openclassrooms.mddapi.models.Comment;
 import com.openclassrooms.mddapi.models.Post;
-import com.openclassrooms.mddapi.models.Theme;
+import com.openclassrooms.mddapi.models.Topic;
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.repository.CommentRepository;
 import com.openclassrooms.mddapi.repository.PostRepository;
-import com.openclassrooms.mddapi.repository.ThemeRepository;
+import com.openclassrooms.mddapi.repository.TopicRepository;
 import com.openclassrooms.mddapi.repository.UserRepository;
 import com.openclassrooms.mddapi.security.services.UserDetailsImpl;
 
@@ -55,7 +55,7 @@ public class CommentControllerTest {
     private UserRepository userRepository;
 
     @Autowired
-    private ThemeRepository themeRepository;
+    private TopicRepository themeRepository;
 
     private User testUser;
     private Post testPost;
@@ -69,15 +69,15 @@ public class CommentControllerTest {
         testUser.setPassword("password");
         testUser = userRepository.save(testUser);
 
-        Theme theme = new Theme();
-        theme.setTitle("Test Theme");
-        theme = themeRepository.save(theme);
+        Topic topic = new Topic();
+        topic.setName("Test Theme");
+        topic = themeRepository.save(topic);
 
         testPost = new Post();
         testPost.setTitre("Article de test");
         testPost.setContenu("Contenu de test");
         testPost.setAuteur(testUser);
-        testPost.setTheme(theme);
+        testPost.setTopic(topic);
         testPost = postRepository.save(testPost);
 
         testComment = new Comment();

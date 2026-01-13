@@ -20,10 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openclassrooms.mddapi.dto.PostDTO;
 import com.openclassrooms.mddapi.models.Post;
-import com.openclassrooms.mddapi.models.Theme;
+import com.openclassrooms.mddapi.models.Topic;
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.repository.PostRepository;
-import com.openclassrooms.mddapi.repository.ThemeRepository;
+import com.openclassrooms.mddapi.repository.TopicRepository;
 import com.openclassrooms.mddapi.repository.UserRepository;
 import com.openclassrooms.mddapi.security.services.UserDetailsImpl;
 
@@ -44,11 +44,11 @@ public class PostControllerTest {
     private UserRepository userRepository;
 
     @Autowired
-    private ThemeRepository themeRepository;
+    private TopicRepository themeRepository;
 
     private User testUser;
     private UserDetailsImpl userDetails;
-    private Theme testTheme;
+    private Topic testTopic;
     private Post testPost;
 
     @BeforeEach
@@ -60,16 +60,16 @@ public class PostControllerTest {
         testUser = userRepository.save(testUser);
         userDetails = UserDetailsImpl.build(testUser);
 
-        testTheme = new Theme();
-        testTheme.setTitle("Java Programming");
-        testTheme.setDescription("Everything about Java");
-        testTheme = themeRepository.save(testTheme);
+        testTopic = new Topic();
+        testTopic.setName("Java Programming");
+        testTopic.setDescription("Everything about Java");
+        testTopic = themeRepository.save(testTopic);
 
         testPost = new Post();
         testPost.setTitre("Mon premier article");
         testPost.setContenu("Ceci est un contenu de test très intéressant.");
         testPost.setAuteur(testUser);
-        testPost.setTheme(testTheme);
+        testPost.setTopic(testTopic);
         testPost = postRepository.save(testPost);
     }
 
@@ -105,7 +105,7 @@ public class PostControllerTest {
     @Test
     void getFeed_ShouldReturnPosts_WhenSubscribedToTheme() throws Exception {
         // ARRANGE
-        testUser.addAbo(testTheme);
+        testUser.addAbo(testTopic);
         userRepository.save(testUser);
 
         // ACT & ASSERT
@@ -123,7 +123,7 @@ public class PostControllerTest {
         PostDTO newPostDto = new PostDTO();
         newPostDto.setTitre("Nouvel Article via API");
         newPostDto.setContenu("Contenu généré par le test MockMvc.");
-        newPostDto.setThemeId(testTheme.getId());
+        newPostDto.setTopicId(testTopic.getId());
 
         // ACT & ASSERT
         mockMvc.perform(post("/api/article")
@@ -140,7 +140,7 @@ public class PostControllerTest {
         PostDTO updateDto = new PostDTO();
         updateDto.setTitre("Titre Modifié");
         updateDto.setContenu("Nouveau contenu");
-        updateDto.setThemeId(testTheme.getId());
+        updateDto.setTopicId(testTopic.getId());
 
         // ACT & ASSERT
         mockMvc.perform(put("/api/article/" + testPost.getId())
@@ -177,7 +177,7 @@ public class PostControllerTest {
         PostDTO updateDto = new PostDTO();
         updateDto.setTitre("Tentative de hack");
         updateDto.setContenu("Ceci est un contenu valide"); 
-        updateDto.setThemeId(testTheme.getId());            
+        updateDto.setTopicId(testTopic.getId());            
 
         // ACT & ASSERT
         mockMvc.perform(put("/api/article/" + testPost.getId())

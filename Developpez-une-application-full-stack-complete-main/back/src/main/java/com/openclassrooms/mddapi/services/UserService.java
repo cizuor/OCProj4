@@ -1,15 +1,15 @@
 package com.openclassrooms.mddapi.services;
 
-import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.openclassrooms.mddapi.dto.UserDTO;
-import com.openclassrooms.mddapi.models.Theme;
+import com.openclassrooms.mddapi.models.Topic;
 import com.openclassrooms.mddapi.models.User;
-import com.openclassrooms.mddapi.repository.ThemeRepository;
+import com.openclassrooms.mddapi.repository.TopicRepository;
 import com.openclassrooms.mddapi.repository.UserRepository;
 
 @Service
@@ -19,7 +19,7 @@ public class UserService {
 	    private UserRepository userRepository;
 
 	    @Autowired
-	    private ThemeRepository themeRepository;
+	    private TopicRepository themeRepository;
 
 	    public UserDTO getUserById(Long id) {
 	        User user = findEntityById(id);
@@ -48,7 +48,7 @@ public class UserService {
 	    @Transactional
 	    public void subscribe(Long userId, Long themeId) {
 	        User user = findEntityById(userId);
-	        Theme theme = themeRepository.findById(themeId)
+	        Topic theme = themeRepository.findById(themeId)
 	                .orElseThrow(() -> new EntityNotFoundException("Thème non trouvé"));
 
 	        user.addAbo(theme);
@@ -58,7 +58,7 @@ public class UserService {
 	    @Transactional
 	    public void unsubscribe(Long userId, Long themeId) {
 	        User user = findEntityById(userId);
-	        Theme theme = themeRepository.findById(themeId)
+	        Topic theme = themeRepository.findById(themeId)
 	                .orElseThrow(() -> new EntityNotFoundException("Thème non trouvé"));
 
 	        user.removeAbo(theme);

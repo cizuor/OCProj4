@@ -6,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,10 +16,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.openclassrooms.mddapi.dto.PostDTO;
 import com.openclassrooms.mddapi.models.Post;
-import com.openclassrooms.mddapi.models.Theme;
+import com.openclassrooms.mddapi.models.Topic;
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.repository.PostRepository;
-import com.openclassrooms.mddapi.repository.ThemeRepository;
+import com.openclassrooms.mddapi.repository.TopicRepository;
 import com.openclassrooms.mddapi.repository.UserRepository;
 
 @SpringBootTest
@@ -36,11 +36,11 @@ public class PostServiceTest {
     private UserRepository userRepository;
 
     @Autowired
-    private ThemeRepository themeRepository;
+    private TopicRepository themeRepository;
 
     private User author;
-    private Theme themeJava;
-    private Theme themeAngular;
+    private Topic topicJava;
+    private Topic topicAngular;
     private Post savedPost;
 
     @BeforeEach
@@ -51,17 +51,17 @@ public class PostServiceTest {
         author.setPassword("password");
         author = userRepository.save(author);
 
-        themeJava = themeRepository.findByTitle("Java")
+        topicJava = themeRepository.findByTitle("Java")
                 .orElseThrow(() -> new RuntimeException("Thème Java non trouvé dans data.sql"));
 
-        themeAngular = themeRepository.findByTitle("Angular")
+        topicAngular = themeRepository.findByTitle("Angular")
                 .orElseThrow(() -> new RuntimeException("Thème Angular non trouvé dans data.sql"));
 
         Post post = new Post();
         post.setTitre("Premier Post");
         post.setContenu("Contenu du premier post");
         post.setAuteur(author);
-        post.setTheme(themeJava);
+        post.setTopic(topicJava);
         savedPost = postRepository.save(post);
     }
 
@@ -98,7 +98,7 @@ public class PostServiceTest {
         newPost.setTitre("Nouveau Post");
         newPost.setContenu("Nouveau Contenu");
         newPost.setAuteur(author);
-        newPost.setTheme(themeAngular);
+        newPost.setTopic(topicAngular);
         
         PostDTO postDto = PostDTO.fromEntity(newPost);
         
@@ -113,7 +113,7 @@ public class PostServiceTest {
     @Test
     void findByThemeId_ShouldFilterPosts() {
     	// ACT
-        List<PostDTO> results = postService.findByThemeId(Arrays.asList(themeJava.getId()));
+        List<PostDTO> results = postService.findByThemeId(Arrays.asList(topicJava.getId()));
         // ASSERT
         assertThat(results).hasSize(1);
         assertThat(results.get(0).getTitre()).isEqualTo("Premier Post");
@@ -125,7 +125,7 @@ public class PostServiceTest {
         Post updateInfo = new Post();
         updateInfo.setTitre("Titre Modifié");
         updateInfo.setContenu("Contenu Modifié");
-        updateInfo.setTheme(themeJava);
+        updateInfo.setTopic(topicJava);
         updateInfo.setAuteur(author);
         
         PostDTO postDto = PostDTO.fromEntity(updateInfo);
@@ -168,11 +168,11 @@ public class PostServiceTest {
         secondPost.setTitre("Second Post");
         secondPost.setContenu("Contenu 2");
         secondPost.setAuteur(author);
-        secondPost.setTheme(themeJava);
+        secondPost.setTopic(topicJava);
         postRepository.save(secondPost);
 
         // ACT
-        List<PostDTO> results = postService.findByThemeIdOrderByCreateAtAsc(Arrays.asList(themeJava.getId()));
+        List<PostDTO> results = postService.findByThemeIdOrderByCreateAtAsc(Arrays.asList(topicJava.getId()));
 
         // ASSERT
         assertThat(results).hasSize(2);

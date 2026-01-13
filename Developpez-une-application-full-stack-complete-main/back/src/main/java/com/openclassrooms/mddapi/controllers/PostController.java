@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +21,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.openclassrooms.mddapi.dto.PostDTO;
-import com.openclassrooms.mddapi.dto.ThemeDTO;
+import com.openclassrooms.mddapi.dto.TopicDTO;
 import com.openclassrooms.mddapi.security.services.UserDetailsImpl;
 import com.openclassrooms.mddapi.services.PostService;
-import com.openclassrooms.mddapi.services.ThemeService;
+import com.openclassrooms.mddapi.services.TopicService;
 
 @CrossOrigin // pour autoriser les requette venant de 4200 a atteindre 8080
 @RestController
@@ -36,7 +36,7 @@ public class PostController {
 	private PostService postService;
 	
 	@Autowired
-	private ThemeService themeService;
+	private TopicService themeService;
 
 
 	
@@ -53,14 +53,14 @@ public class PostController {
 		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
 		
-		List<ThemeDTO> lTheme =  themeService.getUserSubscriptions(userDetails.getId());
+		List<TopicDTO> lTheme =  themeService.getUserSubscriptions(userDetails.getId());
 		
 		if (lTheme.isEmpty()) {
             return ResponseEntity.ok(new ArrayList<>());
         }
 		
 		List<Long> lThemeId = lTheme.stream()
-	            .map(ThemeDTO::getId) 
+	            .map(TopicDTO::getId) 
 	            .collect(Collectors.toList());
 		if(sort.equals("desc")) {		
 			return ResponseEntity.ok().body(postService.findByThemeId(lThemeId));

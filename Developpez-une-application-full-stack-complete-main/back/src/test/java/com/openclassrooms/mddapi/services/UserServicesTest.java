@@ -3,8 +3,8 @@ package com.openclassrooms.mddapi.services;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,9 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.openclassrooms.mddapi.dto.UserDTO;
-import com.openclassrooms.mddapi.models.Theme;
+import com.openclassrooms.mddapi.models.Topic;
 import com.openclassrooms.mddapi.models.User;
-import com.openclassrooms.mddapi.repository.ThemeRepository;
+import com.openclassrooms.mddapi.repository.TopicRepository;
 import com.openclassrooms.mddapi.repository.UserRepository;
 
 @SpringBootTest
@@ -28,11 +28,11 @@ public class UserServicesTest {
     private UserRepository userRepository;
 
     @Autowired
-    private ThemeRepository themeRepository;
+    private TopicRepository themeRepository;
     
     
     private User testUser;
-    private Theme testTheme;
+    private Topic testTheme;
 
     @BeforeEach
     void setUp() {
@@ -45,8 +45,8 @@ public class UserServicesTest {
         testUser.setPassword("password123");
         testUser = userRepository.save(testUser);
 
-        testTheme = new Theme();
-        testTheme.setTitle("Spring Boot IT");
+        testTheme = new Topic();
+        testTheme.setName("Spring Boot IT");
         testTheme.setDescription("Test d'intégration");
         testTheme = themeRepository.save(testTheme);
     }
@@ -99,7 +99,7 @@ public class UserServicesTest {
         
         // ASSERT
         assertThat(updatedUser.getAbonnements()).hasSize(1);
-        assertThat(updatedUser.getAbonnements().iterator().next().getTitle()).isEqualTo("Spring Boot IT");
+        assertThat(updatedUser.getAbonnements().iterator().next().getName()).isEqualTo("Spring Boot IT");
     }
 
     @Test

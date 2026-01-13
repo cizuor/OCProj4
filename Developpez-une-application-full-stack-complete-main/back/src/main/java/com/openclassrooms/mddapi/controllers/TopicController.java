@@ -2,7 +2,7 @@ package com.openclassrooms.mddapi.controllers;
 
 import java.util.List;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,22 +17,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.openclassrooms.mddapi.dto.CommentDTO;
 import com.openclassrooms.mddapi.dto.PostDTO;
-import com.openclassrooms.mddapi.dto.ThemeDTO;
+import com.openclassrooms.mddapi.dto.TopicDTO;
 import com.openclassrooms.mddapi.security.services.UserDetailsImpl;
 import com.openclassrooms.mddapi.services.PostService;
-import com.openclassrooms.mddapi.services.ThemeService;
+import com.openclassrooms.mddapi.services.TopicService;
 
 @CrossOrigin // pour autoriser les requette venant de 4200 a atteindre 8080
 @RestController
-@RequestMapping("/api/theme")
-public class ThemeController {
+@RequestMapping("/api/topic")
+public class TopicController {
 	
 	
 	@Autowired
 	private PostService postService;
 	
 	@Autowired
-	private ThemeService themeService;
+	private TopicService themeService;
 
 	
 	
@@ -40,29 +40,29 @@ public class ThemeController {
     public ResponseEntity<?> getById(@PathVariable("id") Long id) {
 		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
-        ThemeDTO theme = this.themeService.findByID(id,userDetails.getId());         
+        TopicDTO theme = this.themeService.findByID(id,userDetails.getId());         
         return ResponseEntity.ok().body(theme);
 	}
 	
 	@GetMapping()
-    public ResponseEntity<List<ThemeDTO>> getAll() {
+    public ResponseEntity<List<TopicDTO>> getAll() {
 		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
-		List<ThemeDTO> lTheme = this.themeService.findAll(userDetails.getId());         
+		List<TopicDTO> lTheme = this.themeService.getTopics(userDetails.getId());         
         return ResponseEntity.ok().body(lTheme);
 	}
 	
 	@GetMapping("/suivie")
-    public ResponseEntity<List<ThemeDTO>> getAllLiked() {
+    public ResponseEntity<List<TopicDTO>> getAllLiked() {
 		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
-		List<ThemeDTO> lTheme = this.themeService.getUserSubscriptions(userDetails.getId());         
+		List<TopicDTO> lTheme = this.themeService.getUserSubscriptions(userDetails.getId());         
         return ResponseEntity.ok().body(lTheme);
 	}
 	
 	
 	@PostMapping()
-	public ResponseEntity<?> create(@Valid @RequestBody ThemeDTO themeDto ){
+	public ResponseEntity<?> create(@Valid @RequestBody TopicDTO themeDto ){
 		return ResponseEntity.ok().body(themeService.create(themeDto));
 	}
 	

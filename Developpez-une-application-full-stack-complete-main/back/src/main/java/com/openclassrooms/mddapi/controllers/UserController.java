@@ -2,7 +2,7 @@ package com.openclassrooms.mddapi.controllers;
 
 import java.util.List;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.openclassrooms.mddapi.dto.ThemeDTO;
+import com.openclassrooms.mddapi.dto.TopicDTO;
 import com.openclassrooms.mddapi.dto.UserDTO;
 import com.openclassrooms.mddapi.payload.request.UpdateUserRequest;
 import com.openclassrooms.mddapi.security.services.UserDetailsImpl;
-import com.openclassrooms.mddapi.services.ThemeService;
+import com.openclassrooms.mddapi.services.TopicService;
 import com.openclassrooms.mddapi.services.UserService;
 
 @CrossOrigin // pour autoriser les requette venant de 4200 a atteindre 8080
@@ -32,7 +32,7 @@ public class UserController {
 	private UserService userService;
 	
 	@Autowired
-	private ThemeService themeService;
+	private TopicService themeService;
 	
 	@GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable("id") Long id) {
@@ -54,26 +54,26 @@ public class UserController {
 	}
 	
 	@PostMapping("/subscribe/{themeId}")
-	public ResponseEntity<List<ThemeDTO>> PostSubTheme(@PathVariable("themeId") Long id) {
+	public ResponseEntity<List<TopicDTO>> PostSubTheme(@PathVariable("themeId") Long id) {
 		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
 		
 		userService.subscribe(userDetails.getId(), id);
 		
-		List<ThemeDTO> updatedThemes = themeService.findAll(userDetails.getId());
+		List<TopicDTO> updatedThemes = themeService.getTopics(userDetails.getId());
 		
 		return ResponseEntity.ok(updatedThemes);
 	}
 	
 	
 	@PostMapping("/unsubscribe/{themeId}")
-	public ResponseEntity<List<ThemeDTO>> unsubscribe(@PathVariable("themeId") Long id) {
+	public ResponseEntity<List<TopicDTO>> unsubscribe(@PathVariable("themeId") Long id) {
 	    UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
 	            .getAuthentication().getPrincipal();
 	    
 	    userService.unsubscribe(userDetails.getId(), id);
 	    
-	    return ResponseEntity.ok(themeService.findAll(userDetails.getId()));
+	    return ResponseEntity.ok(themeService.getTopics(userDetails.getId()));
 	}
 	
 	@PutMapping("/me")

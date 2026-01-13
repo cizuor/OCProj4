@@ -1,10 +1,10 @@
 package com.openclassrooms.mddapi.models;
 
-import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Size;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,13 +24,14 @@ import org.hibernate.annotations.UpdateTimestamp;
 public class Post {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="post_id")
 	private Long id;
 
 	
 	@NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "theme_id", nullable = false)
-    private Theme theme;
+    private Topic topic;
 	
 	@NotNull
     @ManyToOne(fetch = FetchType.LAZY)

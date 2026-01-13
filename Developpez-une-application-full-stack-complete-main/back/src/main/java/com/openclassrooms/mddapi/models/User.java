@@ -1,8 +1,8 @@
 package com.openclassrooms.mddapi.models;
-import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Size;
-import javax.validation.constraints.NotBlank;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -54,7 +54,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "theme_id")
         )
-    private Set<Theme> abonnements = new HashSet<>();
+    private Set<Topic> abonnements = new HashSet<>();
 
     @CreationTimestamp
     @Column(updatable = false,nullable = false)
@@ -65,13 +65,13 @@ public class User {
     
     
     
-    public void addAbo(Theme theme) {
+    public void addAbo(Topic theme) {
 		if (theme != null && !this.abonnements.contains(theme)) {
             this.abonnements.add(theme);
         }
     }
     
-    public void removeAbo(Theme theme) {
+    public void removeAbo(Topic theme) {
 		if (theme != null && this.abonnements.contains(theme)) {
             this.abonnements.remove(theme);
         }

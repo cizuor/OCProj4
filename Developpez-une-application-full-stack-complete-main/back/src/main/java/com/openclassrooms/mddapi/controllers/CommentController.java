@@ -3,8 +3,8 @@ package com.openclassrooms.mddapi.controllers;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.persistence.EntityNotFoundException;
-import javax.validation.Valid;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ import com.openclassrooms.mddapi.models.Comment;
 import com.openclassrooms.mddapi.security.services.UserDetailsImpl;
 import com.openclassrooms.mddapi.services.CommentService;
 import com.openclassrooms.mddapi.services.PostService;
-import com.openclassrooms.mddapi.services.ThemeService;
+import com.openclassrooms.mddapi.services.TopicService;
 
 @CrossOrigin // pour autoriser les requette venant de 4200 a atteindre 8080
 @RestController

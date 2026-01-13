@@ -1,23 +1,24 @@
 package com.openclassrooms.mddapi.models;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "themes")
+@Table(name = "topics")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Theme {
+public class Topic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "topic_id")
     private Long id;
     
     @Column(nullable = false)
-    private String title;
+    private String name;
     
     @Column(length = 500)
     private String description;

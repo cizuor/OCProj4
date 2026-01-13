@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 
-import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,11 +16,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.openclassrooms.mddapi.dto.CommentDTO;
 import com.openclassrooms.mddapi.models.Comment;
 import com.openclassrooms.mddapi.models.Post;
-import com.openclassrooms.mddapi.models.Theme;
+import com.openclassrooms.mddapi.models.Topic;
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.repository.CommentRepository;
 import com.openclassrooms.mddapi.repository.PostRepository;
-import com.openclassrooms.mddapi.repository.ThemeRepository;
+import com.openclassrooms.mddapi.repository.TopicRepository;
 import com.openclassrooms.mddapi.repository.UserRepository;
 
 @SpringBootTest
@@ -39,7 +39,7 @@ public class CommentServiceTest {
     private PostRepository postRepository;
 
     @Autowired
-    private ThemeRepository themeRepository;
+    private TopicRepository themeRepository;
 
     private User testUser;
     private Post testPost;
@@ -53,13 +53,13 @@ public class CommentServiceTest {
         testUser.setPassword("password123");
         testUser = userRepository.save(testUser);
 
-        Theme theme = themeRepository.findAll().get(0);
+        Topic topic = themeRepository.findAll().get(0);
 
         testPost = new Post();
         testPost.setTitre("Post pour commentaires");
         testPost.setContenu("Ceci est un post de test.");
         testPost.setAuteur(testUser);
-        testPost.setTheme(theme);
+        testPost.setTopic(topic);
         testPost = postRepository.save(testPost);
 
         Comment comment = new Comment();
@@ -105,7 +105,7 @@ public class CommentServiceTest {
         secondPost.setTitre("Autre Post");
         secondPost.setContenu("Contenu");
         secondPost.setAuteur(testUser);
-        secondPost.setTheme(themeRepository.findAll().get(0));
+        secondPost.setTopic(themeRepository.findAll().get(0));
         secondPost = postRepository.save(secondPost);
 
         Comment otherComment = new Comment();

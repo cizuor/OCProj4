@@ -2,8 +2,8 @@ package com.openclassrooms.mddapi.dto;
 
 import java.time.LocalDateTime;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import com.openclassrooms.mddapi.models.Comment;
 

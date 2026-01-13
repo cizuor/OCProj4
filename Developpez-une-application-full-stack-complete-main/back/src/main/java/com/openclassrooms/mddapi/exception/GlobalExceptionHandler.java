@@ -1,7 +1,7 @@
 package com.openclassrooms.mddapi.exception;
 
 
-import javax.persistence.EntityNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

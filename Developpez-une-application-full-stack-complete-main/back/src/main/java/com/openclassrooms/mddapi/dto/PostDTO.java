@@ -1,8 +1,8 @@
 package com.openclassrooms.mddapi.dto;
 import java.time.LocalDateTime;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import com.openclassrooms.mddapi.models.Post;
 
@@ -16,9 +16,9 @@ import lombok.NoArgsConstructor;
 public class PostDTO {
 	private Long id;
 	
-	private String themeName;
+	private String topicName;
 	@NotNull(message = "Il doit y avoir un theme")
-	private Long themeId;
+	private Long topicId;
 	
 	private String userName;
 	private Long userID;
@@ -38,8 +38,8 @@ public class PostDTO {
 		
 		return new PostDTO(
 				post.getId(),
-				post.getTheme() != null ? post.getTheme().getTitle() : null,
-				post.getTheme() != null ? post.getTheme().getId() : null,
+				post.getTopic() != null ? post.getTopic().getName() : null,
+				post.getTopic() != null ? post.getTopic().getId() : null,
 				post.getAuteur() != null ? post.getAuteur().getPseudo() : null,
 				post.getAuteur() != null ? post.getAuteur().getId() : null,
 				post.getTitre(),

@@ -7,29 +7,29 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.openclassrooms.mddapi.dto.ThemeDTO;
-import com.openclassrooms.mddapi.models.Theme;
+import com.openclassrooms.mddapi.dto.TopicDTO;
+import com.openclassrooms.mddapi.models.Topic;
 import com.openclassrooms.mddapi.models.User;
-import com.openclassrooms.mddapi.repository.ThemeRepository;
+import com.openclassrooms.mddapi.repository.TopicRepository;
 import com.openclassrooms.mddapi.repository.UserRepository;
 
 @SpringBootTest
 @Transactional
-public class ThemeServiceTest {
+public class TopicServiceTest {
 	
 	@Autowired
-    private ThemeService themeService;
+    private TopicService themeService;
 
     @Autowired
-    private ThemeRepository themeRepository;
+    private TopicRepository themeRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -41,14 +41,14 @@ public class ThemeServiceTest {
     
     @BeforeEach
     void setUp() {
-        Theme java = new Theme();
-        java.setTitle("learn Java");
+        Topic java = new Topic();
+        java.setName("learn Java");
         java.setDescription("Cours sur Java");
         java = themeRepository.save(java);
         themeJavaId = java.getId();
 
-        Theme angular = new Theme();
-        angular.setTitle("learn Angular");
+        Topic angular = new Topic();
+        angular.setName("learn Angular");
         angular.setDescription("Cours sur Angular");
         angular = themeRepository.save(angular);
         themeAngularId = angular.getId();
@@ -66,7 +66,7 @@ public class ThemeServiceTest {
     @Test
     void findByID_ShouldReturnThemeWithIsLikedTrue_WhenUserIsSubscribed() {
     	// ACT
-        ThemeDTO result = themeService.findByID(themeJavaId, userId);
+        TopicDTO result = themeService.findByID(themeJavaId, userId);
 
         // ASSERT
         assertThat(result.getTitle()).isEqualTo("learn Java");
@@ -76,7 +76,7 @@ public class ThemeServiceTest {
     @Test
     void findByID_ShouldReturnThemeWithIsLikedFalse_WhenUserIsNotSubscribed() {
     	// ACT
-        ThemeDTO result = themeService.findByID(themeAngularId, userId);
+        TopicDTO result = themeService.findByID(themeAngularId, userId);
 
         // ASSERT
         assertThat(result.getTitle()).isEqualTo("learn Angular");
@@ -94,12 +94,12 @@ public class ThemeServiceTest {
     @Test
     void create_ShouldSaveAndReturnDTO() {
     	// ARRANGE
-        Theme newTheme = new Theme();
-        newTheme.setTitle("Spring Boot");
+        Topic newTheme = new Topic();
+        newTheme.setName("Spring Boot");
         newTheme.setDescription("Framework Java");
 
         // ACT
-        ThemeDTO created = themeService.create(ThemeDTO.fromEntity(newTheme, Collections.emptyList()));
+        TopicDTO created = themeService.create(TopicDTO.fromEntity(newTheme, Collections.emptyList()));
 
         // ASSERT
         assertThat(created.getId()).isNotNull();
@@ -110,13 +110,13 @@ public class ThemeServiceTest {
     @Test
     void findAll_ShouldReturnAllThemesWithCorrectLikeStatus() {
         // ACT
-        List<ThemeDTO> results = themeService.findAll(userId);
+        List<TopicDTO> results = themeService.getTopics(userId);
 
         // ASSERT
         assertThat(results).hasSize(6); // 2 + 4 du data.sql
         
-        ThemeDTO javaDto = results.stream().filter(t -> t.getTitle().equals("learn Java")).findFirst().get();
-        ThemeDTO angularDto = results.stream().filter(t -> t.getTitle().equals("learn Angular")).findFirst().get();
+        TopicDTO javaDto = results.stream().filter(t -> t.getTitle().equals("learn Java")).findFirst().get();
+        TopicDTO angularDto = results.stream().filter(t -> t.getTitle().equals("learn Angular")).findFirst().get();
 
         assertThat(javaDto.isLiked()).isTrue();
         assertThat(angularDto.isLiked()).isFalse();
@@ -125,7 +125,7 @@ public class ThemeServiceTest {
     @Test
     void findAll_ShouldReturnAllThemesWithLikedFalse_WhenUserIdIsNull() {
         // ACT
-        List<ThemeDTO> results = themeService.findAll(null);
+        List<TopicDTO> results = themeService.getTopics(null);
 
         // ASSERT
         assertThat(results).hasSize(6); // 2 + 4 du data.sql
@@ -135,7 +135,7 @@ public class ThemeServiceTest {
     @Test
     void getUserSubscriptions_ShouldReturnOnlySubscribedThemes() {
         // ACT
-        List<ThemeDTO> results = themeService.getUserSubscriptions(userId);
+        List<TopicDTO> results = themeService.getUserSubscriptions(userId);
 
         // ASSERT
         assertThat(results).hasSize(1);
@@ -153,7 +153,7 @@ public class ThemeServiceTest {
         newUser = userRepository.save(newUser);
 
         // ACT
-        List<ThemeDTO> results = themeService.getUserSubscriptions(newUser.getId());
+        List<TopicDTO> results = themeService.getUserSubscriptions(newUser.getId());
 
         // ASSERT
         assertThat(results).isEmpty();
