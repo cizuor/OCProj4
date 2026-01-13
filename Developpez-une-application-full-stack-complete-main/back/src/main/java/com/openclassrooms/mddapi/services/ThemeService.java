@@ -33,7 +33,11 @@ public class ThemeService {
 		return ThemeDTO.fromEntity(themeRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Theme non trouvé")),likedIds);
 	}
 	
-	public ThemeDTO create(Theme theme) {
+	public ThemeDTO create(ThemeDTO themeDto) {
+		Theme theme = new Theme();
+		theme.setDescription(themeDto.getDescription());
+		theme.setTitle(themeDto.getTitle());
+		
 		return ThemeDTO.fromEntity(themeRepository.save(theme),Collections.emptySet());
 	}
 	

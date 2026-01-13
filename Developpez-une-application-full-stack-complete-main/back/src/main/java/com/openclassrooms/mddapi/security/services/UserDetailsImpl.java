@@ -5,8 +5,11 @@ import java.util.Collections;
 import java.util.Objects;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.openclassrooms.mddapi.models.User;
+
 
 public class UserDetailsImpl implements UserDetails {
 	private Long id;

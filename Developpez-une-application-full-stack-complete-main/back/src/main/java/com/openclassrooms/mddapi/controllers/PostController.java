@@ -71,7 +71,6 @@ public class PostController {
 	}
 	
 	
-	
 	@GetMapping("")
 	public ResponseEntity<List<PostDTO>> getAll(){
 		return ResponseEntity.ok().body(postService.findAll());

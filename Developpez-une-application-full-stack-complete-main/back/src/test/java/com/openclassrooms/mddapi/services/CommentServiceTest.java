@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.openclassrooms.mddapi.dto.CommentDTO;
 import com.openclassrooms.mddapi.models.Comment;
 import com.openclassrooms.mddapi.models.Post;
 import com.openclassrooms.mddapi.models.Theme;
@@ -42,7 +43,7 @@ public class CommentServiceTest {
 
     private User testUser;
     private Post testPost;
-    private Comment savedComment;
+    private CommentDTO savedComment;
 
     @BeforeEach
     void setUp() {
@@ -65,18 +66,18 @@ public class CommentServiceTest {
         comment.setContenu("Super article !");
         comment.setAuthor(testUser);
         comment.setPost(testPost);
-        savedComment = commentRepository.save(comment);
+        savedComment = CommentDTO.fromEntity(commentRepository.save(comment));
     }
 
     @Test
     void findByID_ShouldReturnComment_WhenExists() {
         // ACT
-        Comment found = commentService.findByID(savedComment.getId());
+    	CommentDTO found = commentService.findByID(savedComment.getId());
 
         // ASSERT
         assertThat(found).isNotNull();
         assertThat(found.getContenu()).isEqualTo("Super article !");
-        assertThat(found.getAuthor().getPseudo()).isEqualTo("JeanMimi");
+        assertThat(found.getAuthorName()).isEqualTo("JeanMimi");
     }
 
     @Test
@@ -90,7 +91,7 @@ public class CommentServiceTest {
     @Test
     void findAll_ShouldReturnAllComments() {
         // ACT
-        List<Comment> comments = commentService.findAll();
+        List<CommentDTO> comments = commentService.findAll();
 
         // ASSERT
         assertThat(comments).isNotEmpty();
@@ -114,7 +115,7 @@ public class CommentServiceTest {
         commentRepository.save(otherComment);
 
         // ACT
-        List<Comment> results = commentService.findByPostId(testPost.getId());
+        List<CommentDTO> results = commentService.findByPostId(testPost.getId());
 
         // ASSERT
         assertThat(results).hasSize(1);
@@ -128,9 +129,11 @@ public class CommentServiceTest {
         newComment.setContenu("Nouveau commentaire via service");
         newComment.setAuthor(testUser);
         newComment.setPost(testPost);
+        
+        
 
         // ACT
-        Comment created = commentService.create(newComment);
+        CommentDTO created = commentService.create(CommentDTO.fromEntity(newComment),testPost.getId(),testUser.getId());
 
         // ASERT
         assertThat(created.getId()).isNotNull();

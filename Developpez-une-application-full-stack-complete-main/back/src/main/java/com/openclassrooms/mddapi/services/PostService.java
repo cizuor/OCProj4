@@ -76,7 +76,7 @@ public class PostService {
 		Post post = postRepository.findById(id)
 	            .orElseThrow(() -> new EntityNotFoundException("Post non trouvé"));
 		
-		if(post.getAuteur().getId().equals(userId)) {
+		if(!post.getAuteur().getId().equals(userId)) {
 			throw new RuntimeException("Vous n'avez pas l'autorisation de modifier ce post");
 		}
 			postRepository.delete(post);

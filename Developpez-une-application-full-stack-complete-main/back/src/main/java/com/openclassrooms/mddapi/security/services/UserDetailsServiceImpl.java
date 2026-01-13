@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.repository.UserRepository;
 
+@Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 	 @Autowired
 	    UserRepository userRepository;

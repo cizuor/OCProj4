@@ -149,6 +149,15 @@ public class PostServiceTest {
         // ASSERT
         assertThat(postRepository.findById(savedPost.getId())).isEmpty();
     }
+    
+    
+    @Test
+    void delete_ShouldReturnError() {
+    	// ACT && ASSERT
+    	assertThrows(RuntimeException.class, () -> {
+    		postService.delete(savedPost.getId(),savedPost.getAuteur().getId()+1);
+        });
+    }
 
     @Test
     void findByThemeIdOrderByCreateAtAsc_ShouldReturnSortedPosts() throws InterruptedException {

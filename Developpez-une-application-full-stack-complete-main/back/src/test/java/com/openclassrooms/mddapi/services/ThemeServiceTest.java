@@ -4,6 +4,8 @@ package com.openclassrooms.mddapi.services;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
@@ -97,7 +99,7 @@ public class ThemeServiceTest {
         newTheme.setDescription("Framework Java");
 
         // ACT
-        ThemeDTO created = themeService.create(newTheme);
+        ThemeDTO created = themeService.create(ThemeDTO.fromEntity(newTheme, Collections.emptyList()));
 
         // ASSERT
         assertThat(created.getId()).isNotNull();
