@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
+import org.springframework.security.access.AccessDeniedException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.openclassrooms.mddapi.dto.PostDTO;
-import com.openclassrooms.mddapi.models.Comment;
 import com.openclassrooms.mddapi.models.Post;
 import com.openclassrooms.mddapi.models.Theme;
 import com.openclassrooms.mddapi.models.User;
@@ -77,7 +77,7 @@ public class PostService {
 	            .orElseThrow(() -> new EntityNotFoundException("Post non trouvé"));
 		
 		if(!post.getAuteur().getId().equals(userId)) {
-			throw new RuntimeException("Vous n'avez pas l'autorisation de modifier ce post");
+			throw new AccessDeniedException("Vous n'avez pas l'autorisation de modifier ce post");
 		}
 			postRepository.delete(post);
 	}
@@ -89,8 +89,7 @@ public class PostService {
 			
 		
 		if (!existingPost.getAuteur().getId().equals(userId)) {
-	        // Tu peux créer une exception personnalisée ou utiliser une standard
-	        throw new RuntimeException("Vous n'avez pas l'autorisation de modifier ce post");
+			 throw new AccessDeniedException("Vous n'avez pas l'autorisation de modifier ce post");
 	    }
 		
 		

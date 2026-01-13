@@ -36,7 +36,6 @@ public class CommentController {
 	@Autowired
 	private CommentService commentService;
 	
-	// est il vraiment utile ? 
 	@GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable("id") Long id) {
             CommentDTO comment = this.commentService.findByID(id);         

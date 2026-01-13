@@ -1,15 +1,17 @@
 package com.openclassrooms.mddapi.exception;
 
-import java.nio.file.AccessDeniedException;
 
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.security.access.AccessDeniedException;
 
 import com.openclassrooms.mddapi.payload.response.MessageResponse;
 
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 	
 	
