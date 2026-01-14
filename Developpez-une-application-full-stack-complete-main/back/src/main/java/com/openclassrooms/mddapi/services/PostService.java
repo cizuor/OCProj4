@@ -43,13 +43,13 @@ public class PostService {
 	}
 	
 	public List<PostDTO> findByThemeId(List<Long> listThemesId){
-		return postRepository.findByThemeIdIn(listThemesId).stream()
+		return postRepository.findByTopicIdIn(listThemesId).stream()
 				.map(PostDTO::fromEntity)
 				.collect(Collectors.toList());
 	}
 	
 	public List<PostDTO> findByThemeIdOrderByCreateAtAsc(List<Long> listThemesId){
-		return postRepository.findByThemeIdIn(listThemesId,Sort.by(Sort.Direction.ASC, "createdAt")).stream()
+		return postRepository.findByTopic_IdIn(listThemesId,Sort.by(Sort.Direction.ASC, "createdAt")).stream()
 				.map(PostDTO::fromEntity)
 				.collect(Collectors.toList());
 	}

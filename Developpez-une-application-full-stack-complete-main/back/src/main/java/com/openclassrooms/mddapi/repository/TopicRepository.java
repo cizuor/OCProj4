@@ -17,5 +17,5 @@ public interface TopicRepository  extends JpaRepository<Topic, Long>{
 	@Query("SELECT t FROM User u JOIN u.abonnements t WHERE u.id = :userId")
 	List<Topic> findByUsersId(Long userId);
 	
-	Optional<Topic> findByTitle(String title);
+	Optional<Topic> findByName(String name);
 }

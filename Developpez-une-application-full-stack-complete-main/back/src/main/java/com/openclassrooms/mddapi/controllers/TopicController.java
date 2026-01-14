@@ -32,7 +32,7 @@ public class TopicController {
 	private PostService postService;
 	
 	@Autowired
-	private TopicService themeService;
+	private TopicService topicService;
 
 	
 	
@@ -40,7 +40,7 @@ public class TopicController {
     public ResponseEntity<?> getById(@PathVariable("id") Long id) {
 		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
-        TopicDTO theme = this.themeService.findByID(id,userDetails.getId());         
+        TopicDTO theme = this.topicService.findByID(id,userDetails.getId());         
         return ResponseEntity.ok().body(theme);
 	}
 	
@@ -48,7 +48,7 @@ public class TopicController {
     public ResponseEntity<List<TopicDTO>> getAll() {
 		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
-		List<TopicDTO> lTheme = this.themeService.getTopics(userDetails.getId());         
+		List<TopicDTO> lTheme = this.topicService.getTopics(userDetails.getId());         
         return ResponseEntity.ok().body(lTheme);
 	}
 	
@@ -56,14 +56,14 @@ public class TopicController {
     public ResponseEntity<List<TopicDTO>> getAllLiked() {
 		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
-		List<TopicDTO> lTheme = this.themeService.getUserSubscriptions(userDetails.getId());         
+		List<TopicDTO> lTheme = this.topicService.getUserSubscriptions(userDetails.getId());         
         return ResponseEntity.ok().body(lTheme);
 	}
 	
 	
 	@PostMapping()
 	public ResponseEntity<?> create(@Valid @RequestBody TopicDTO themeDto ){
-		return ResponseEntity.ok().body(themeService.create(themeDto));
+		return ResponseEntity.ok().body(topicService.create(themeDto));
 	}
 	
 	

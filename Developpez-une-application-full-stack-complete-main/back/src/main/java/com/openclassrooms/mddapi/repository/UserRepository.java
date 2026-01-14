@@ -15,7 +15,7 @@ public interface UserRepository extends JpaRepository<User, Long>{
 
 	// on ne recup que les id des theme pour ne pas alourdir inutilement le chargement 
 	@Query("SELECT t.id FROM User u JOIN u.abonnements t WHERE u.id = :userId")
-	Set<Long> findSubscribedThemeIdsByUserId(@Param("userId") Long userId);
+	Set<Long> findSubscribedTopicIdsByUserId(@Param("userId") Long userId);
 	
 	
 	 Optional<User> findByEmailOrPseudo(String email, String pseudo);

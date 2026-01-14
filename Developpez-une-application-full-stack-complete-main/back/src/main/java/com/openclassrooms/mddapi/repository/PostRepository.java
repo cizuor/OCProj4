@@ -12,11 +12,11 @@ import com.openclassrooms.mddapi.models.Post;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
 	
-	List<Post> findByThemeIdIn(Collection<Long> themeIds, Sort sort);
+	List<Post> findByTopic_IdIn(Collection<Long> themeIds, Sort sort);
 	
 	//pour ne pas obliger a utiliser le param sort
-	default List<Post> findByThemeIdIn(Collection<Long> themeIds) {
-        return findByThemeIdIn(themeIds, Sort.by(Sort.Direction.DESC, "createdAt"));
+	default List<Post> findByTopicIdIn(Collection<Long> topicIds) {
+        return findByTopic_IdIn(topicIds, Sort.by(Sort.Direction.DESC, "createdAt"));
     }
 
 }

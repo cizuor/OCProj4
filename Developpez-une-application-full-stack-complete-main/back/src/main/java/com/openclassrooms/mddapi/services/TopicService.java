@@ -28,7 +28,7 @@ public class TopicService {
 	
 	public TopicDTO findByID(Long id,Long userId){
 		
-		Collection<Long> likedIds = (userId != null) ? userRepository.findSubscribedThemeIdsByUserId(userId) : Collections.emptySet();
+		Collection<Long> likedIds = (userId != null) ? userRepository.findSubscribedTopicIdsByUserId(userId) : Collections.emptySet();
 		
 		return TopicDTO.fromEntity(themeRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Theme non trouvé")),likedIds);
 	}
@@ -44,7 +44,7 @@ public class TopicService {
 	public List<TopicDTO> getTopics(Long userId) {
         List<Topic> allThemes = themeRepository.findAll();
 
-        Collection<Long> likedIds = (userId != null) ? userRepository.findSubscribedThemeIdsByUserId(userId) : Collections.emptySet();
+        Collection<Long> likedIds = (userId != null) ? userRepository.findSubscribedTopicIdsByUserId(userId) : Collections.emptySet();
 
         return allThemes.stream()
             .map(theme -> TopicDTO.fromEntity(theme, likedIds))

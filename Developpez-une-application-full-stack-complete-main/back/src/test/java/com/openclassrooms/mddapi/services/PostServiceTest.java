@@ -51,10 +51,10 @@ public class PostServiceTest {
         author.setPassword("password");
         author = userRepository.save(author);
 
-        topicJava = themeRepository.findByTitle("Java")
+        topicJava = themeRepository.findByName("Java")
                 .orElseThrow(() -> new RuntimeException("Thème Java non trouvé dans data.sql"));
 
-        topicAngular = themeRepository.findByTitle("Angular")
+        topicAngular = themeRepository.findByName("Angular")
                 .orElseThrow(() -> new RuntimeException("Thème Angular non trouvé dans data.sql"));
 
         Post post = new Post();

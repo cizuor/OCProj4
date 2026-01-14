@@ -19,7 +19,7 @@ public class UserService {
 	    private UserRepository userRepository;
 
 	    @Autowired
-	    private TopicRepository themeRepository;
+	    private TopicRepository topicRepository;
 
 	    public UserDTO getUserById(Long id) {
 	        User user = findEntityById(id);
@@ -46,22 +46,22 @@ public class UserService {
 
 
 	    @Transactional
-	    public void subscribe(Long userId, Long themeId) {
+	    public void subscribe(Long userId, Long topicId) {
 	        User user = findEntityById(userId);
-	        Topic theme = themeRepository.findById(themeId)
+	        Topic topic = topicRepository.findById(topicId)
 	                .orElseThrow(() -> new EntityNotFoundException("Thème non trouvé"));
 
-	        user.addAbo(theme);
-	        userRepository.save(user);
+	        user.addAbo(topic);
+	        userRepository.saveAndFlush(user);
 	    }
 
 	    @Transactional
-	    public void unsubscribe(Long userId, Long themeId) {
+	    public void unsubscribe(Long userId, Long topicId) {
 	        User user = findEntityById(userId);
-	        Topic theme = themeRepository.findById(themeId)
+	        Topic topic = topicRepository.findById(topicId)
 	                .orElseThrow(() -> new EntityNotFoundException("Thème non trouvé"));
 
-	        user.removeAbo(theme);
-	        userRepository.save(user);
+	        user.removeAbo(topic);
+	        userRepository.saveAndFlush(user);
 	    }
 }

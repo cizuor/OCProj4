@@ -32,7 +32,7 @@ public class UserController {
 	private UserService userService;
 	
 	@Autowired
-	private TopicService themeService;
+	private TopicService topicService;
 	
 	@GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable("id") Long id) {
@@ -53,27 +53,27 @@ public class UserController {
 	    return ResponseEntity.ok(user);
 	}
 	
-	@PostMapping("/subscribe/{themeId}")
-	public ResponseEntity<List<TopicDTO>> PostSubTheme(@PathVariable("themeId") Long id) {
+	@PostMapping("/subscribe/{topicId}")
+	public ResponseEntity<List<TopicDTO>> PostSubTheme(@PathVariable("topicId") Long id) {
 		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
 		
 		userService.subscribe(userDetails.getId(), id);
 		
-		List<TopicDTO> updatedThemes = themeService.getTopics(userDetails.getId());
+		List<TopicDTO> updatedThemes = topicService.getTopics(userDetails.getId());
 		
 		return ResponseEntity.ok(updatedThemes);
 	}
 	
 	
-	@PostMapping("/unsubscribe/{themeId}")
-	public ResponseEntity<List<TopicDTO>> unsubscribe(@PathVariable("themeId") Long id) {
+	@PostMapping("/unsubscribe/{topicId}")
+	public ResponseEntity<List<TopicDTO>> unsubscribe(@PathVariable("topicId") Long id) {
 	    UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
 	            .getAuthentication().getPrincipal();
 	    
 	    userService.unsubscribe(userDetails.getId(), id);
 	    
-	    return ResponseEntity.ok(themeService.getTopics(userDetails.getId()));
+	    return ResponseEntity.ok(topicService.getTopics(userDetails.getId()));
 	}
 	
 	@PutMapping("/me")

@@ -114,7 +114,7 @@ public class PostControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isNotEmpty())
-                .andExpect(jsonPath("$[0].themeName").value("Java Programming"));
+                .andExpect(jsonPath("$[0].topicName").value("Java Programming"));
     }
 
     @Test
