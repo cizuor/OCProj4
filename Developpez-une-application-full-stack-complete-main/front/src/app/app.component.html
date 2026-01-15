@@ -1,1 +1,13 @@
+<nav>
+    <a routerLink="/">Accueil</a>
+     @if (isLogged$ | async) {
+        <a routerLink="/articles">Articles</a>
+        <a routerLink="/themes">Thèmes</a>
+        <a routerLink="/profil">Mon Profil</a>
+        <button (click)="logout()">Déconnexion</button>
+    } @else {
+        <a routerLink="/login">Se connecter</a>
+        <a routerLink="/register">S'inscrire</a>
+    }
+</nav>
 <app-topic></app-topic>

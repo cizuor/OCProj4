@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { SessionService } from './core/services/session.service';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-root',
@@ -7,5 +9,12 @@ import { Component } from '@angular/core';
     standalone: false
 })
 export class AppComponent {
-  
+
+  private sessionService = inject(SessionService);
+
+  public isLogged$ = this.sessionService.$isLogged();
+
+  public logout(): void {
+    this.sessionService.logOut();
+  }
 }
