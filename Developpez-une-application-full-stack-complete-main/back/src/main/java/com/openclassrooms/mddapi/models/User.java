@@ -50,9 +50,9 @@ public class User {
     
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "user_abo", // Nom de la table de jointure
+			name = "user_subscriptions", // Nom de la table de jointure
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "theme_id")
+            inverseJoinColumns = @JoinColumn(name = "topic_id")
         )
     private Set<Topic> abonnements = new HashSet<>();
 

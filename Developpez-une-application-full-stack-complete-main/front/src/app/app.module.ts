@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { TopicComponent } from './topic/topic.component';
+import { jwtInterceptor } from './interceptors/jwt-interceptor';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -12,7 +14,10 @@ import { TopicComponent } from './topic/topic.component';
   imports: [
     BrowserModule
   ],
-  providers: [],
+  providers: [
+    provideHttpClient(
+      withInterceptors([jwtInterceptor])
+    )],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

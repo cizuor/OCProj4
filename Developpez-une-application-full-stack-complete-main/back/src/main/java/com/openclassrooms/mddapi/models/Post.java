@@ -30,7 +30,7 @@ public class Post {
 	
 	@NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "theme_id", nullable = false)
+    @JoinColumn(name = "topic_id", nullable = false)
     private Topic topic;
 	
 	@NotNull
