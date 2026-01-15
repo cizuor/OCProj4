@@ -1,0 +1,15 @@
+
+<div class="register-container">
+  <h2>Inscription</h2>
+  
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <input type="email" formControlName="email" placeholder="Email">
+    <input type="text" formControlName="pseudo" placeholder="Pseudo">
+    <input type="password" formControlName="password" placeholder="Mot de passe">
+    
+    <button type="submit" [disabled]="form.invalid">Se connecter</button>
+
+    @if (error) {
+      <p class="error">Identifiants incorrects</p>
+    }
+  </form>

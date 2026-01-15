@@ -63,14 +63,16 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",         
           "options": {
-            "buildTarget": "mdd-client:build"
+            "buildTarget": "mdd-client:build",
+            "proxyConfig": "proxy.conf.json"
           },
           "configurations": {
             "production": {
               "buildTarget": "mdd-client:build:production"
             },
             "development": {
-              "buildTarget": "mdd-client:build:production"
+              "buildTarget": "mdd-client:build:production",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

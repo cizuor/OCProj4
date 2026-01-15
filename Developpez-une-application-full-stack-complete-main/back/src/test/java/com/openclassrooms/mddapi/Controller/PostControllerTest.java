@@ -76,7 +76,7 @@ public class PostControllerTest {
     @Test
     void getById_ShouldReturnPost() throws Exception {
     	// ACT & ASSERT
-        mockMvc.perform(get("/api/article/" + testPost.getId())
+        mockMvc.perform(get("/api/articles/" + testPost.getId())
                 .with(user(userDetails)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.titre").value("Mon premier article"))
@@ -86,7 +86,7 @@ public class PostControllerTest {
     @Test
     void getAll_ShouldReturnListOfPosts() throws Exception {
     	// ACT & ASSERT
-        mockMvc.perform(get("/api/article")
+        mockMvc.perform(get("/api/articles")
                 .with(user(userDetails)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
@@ -96,7 +96,7 @@ public class PostControllerTest {
     @Test
     void getFeed_ShouldReturnEmptyList_WhenNoSubscriptions() throws Exception {
     	// ACT & ASSERT
-        mockMvc.perform(get("/api/article/feed")
+        mockMvc.perform(get("/api/articles/feed")
                 .with(user(userDetails)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isEmpty());
@@ -109,7 +109,7 @@ public class PostControllerTest {
         userRepository.save(testUser);
 
         // ACT & ASSERT
-        mockMvc.perform(get("/api/article/feed")
+        mockMvc.perform(get("/api/articles/feed")
                 .with(user(userDetails)))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -126,7 +126,7 @@ public class PostControllerTest {
         newPostDto.setTopicId(testTopic.getId());
 
         // ACT & ASSERT
-        mockMvc.perform(post("/api/article")
+        mockMvc.perform(post("/api/articles")
                 .with(user(userDetails))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(newPostDto)))
@@ -143,7 +143,7 @@ public class PostControllerTest {
         updateDto.setTopicId(testTopic.getId());
 
         // ACT & ASSERT
-        mockMvc.perform(put("/api/article/" + testPost.getId())
+        mockMvc.perform(put("/api/articles/" + testPost.getId())
                 .with(user(userDetails))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updateDto)))
@@ -154,12 +154,12 @@ public class PostControllerTest {
     @Test
     void delete_ShouldRemovePost() throws Exception {
     	// ACT
-        mockMvc.perform(delete("/api/article/" + testPost.getId())
+        mockMvc.perform(delete("/api/articles/" + testPost.getId())
                 .with(user(userDetails)))
                 .andExpect(status().isOk());
 
         // ASSERT
-        mockMvc.perform(get("/api/article/" + testPost.getId())
+        mockMvc.perform(get("/api/articles/" + testPost.getId())
                 .with(user(userDetails)))
                 .andExpect(status().isNotFound()); 
     }
@@ -180,7 +180,7 @@ public class PostControllerTest {
         updateDto.setTopicId(testTopic.getId());            
 
         // ACT & ASSERT
-        mockMvc.perform(put("/api/article/" + testPost.getId())
+        mockMvc.perform(put("/api/articles/" + testPost.getId())
                 .with(user(otherDetails))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updateDto)))

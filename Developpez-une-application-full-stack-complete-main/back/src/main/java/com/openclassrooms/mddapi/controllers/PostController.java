@@ -28,7 +28,7 @@ import com.openclassrooms.mddapi.services.TopicService;
 
 @CrossOrigin // pour autoriser les requette venant de 4200 a atteindre 8080
 @RestController
-@RequestMapping("/api/article")
+@RequestMapping("/api/articles")
 public class PostController {
 	
 	
