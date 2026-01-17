@@ -53,19 +53,19 @@ public class PostController {
 		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
 		
-		List<TopicDTO> lTheme =  themeService.getUserSubscriptions(userDetails.getId());
+		List<TopicDTO> lTopic =  themeService.getUserSubscriptions(userDetails.getId());
 		
-		if (lTheme.isEmpty()) {
+		if (lTopic == null || lTopic.isEmpty()) {
             return ResponseEntity.ok(new ArrayList<>());
         }
 		
-		List<Long> lThemeId = lTheme.stream()
+		List<Long> lTopicId = lTopic.stream()
 	            .map(TopicDTO::getId) 
 	            .collect(Collectors.toList());
 		if(sort.equals("desc")) {		
-			return ResponseEntity.ok().body(postService.findByThemeId(lThemeId));
+			return ResponseEntity.ok().body(postService.findByThemeId(lTopicId));
 		}else {
-			return ResponseEntity.ok().body(postService.findByThemeIdOrderByCreateAtAsc(lThemeId));
+			return ResponseEntity.ok().body(postService.findByThemeIdOrderByCreateAtAsc(lTopicId));
 		}
 		
 	}
@@ -88,7 +88,7 @@ public class PostController {
 	
 	
 	@PutMapping("{id}")
-	public ResponseEntity<?> create(@PathVariable("id") Long id,@Valid @RequestBody PostDTO postDto ){
+	public ResponseEntity<?> update(@PathVariable("id") Long id,@Valid @RequestBody PostDTO postDto ){
 		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
 		postDto.setUserID(userDetails.getId()); // on ne modifie pas un post au nom d'un autre

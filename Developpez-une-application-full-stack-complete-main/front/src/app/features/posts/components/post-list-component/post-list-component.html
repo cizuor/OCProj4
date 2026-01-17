@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="header-actions">
+    <h1>Fil d'actualités</h1>
+    <button class="btn-create" [routerLink]="['create']">
+        Créer un article
+      </button>
+  </div>
+  @for (post of posts; track post.id) {
+    <div class="post-card" style="border: 1px solid #ccc; margin-bottom: 10px; padding: 10px;">
+      <h2>{{ post.titre }}</h2>
+      <small>Par {{ post.userName }} le {{ post.createdAt | date:'short' }}</small>
+      <p>Thème : <strong>{{ post.topicName }}</strong></p>
+      <p>{{ post.contenu }}</p>
+      <button [routerLink]="['/articles', post.id]">Lire la suite / Commentaires</button>
+    </div>
+  } @empty {
+    <p>Aucun article à afficher. Abonnez-vous à des thèmes !</p>
+  }
+</div>

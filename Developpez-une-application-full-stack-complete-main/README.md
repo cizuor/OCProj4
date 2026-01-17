@@ -23,3 +23,16 @@ This library is `@angular/material`, it's one of the most famous in the angular 
 Note: I recommend to use material however it's not mandatory, if you prefer you can get rid of it.
 
 Good luck!
+
+
+
+
+
+
+### Test
+
+pour lancer l'application en mode test/dev il faut utilisé le fichier TestMddApiApplication.java
+Utilisateur de test:
+email : test@test.fr
+pseudo : test
+mdp : test123!
