@@ -3,7 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  userPath : '/api/utilisateur',
+  topicPath : '/api/topic',
+  postPath : '/api/articles',
+  commentPath : '/api/commentaire',
+  authPath : '/api/auth'
 };
 
 /*

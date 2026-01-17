@@ -1,0 +1,64 @@
+<div class="detail-container">
+  
+  <!-- BOUTON RETOUR -->
+  <button class="btn-back" [routerLink]="['/articles']">← Retour aux articles</button>
+
+  <!-- SECTION ARTICLE -->
+  @if (post) {
+    <article class="post-full">
+      <header class="post-header">
+        <h1>{{ post.titre }}</h1>
+        <div class="post-meta">
+          <span class="date">{{ post.createdAt | date:'longDate' }}</span>
+          <span class="author">par <strong>{{ post.userName }}</strong></span>
+          <span class="topic-badge">{{ post.topicName }}</span>
+        </div>
+      </header>
+
+      <div class="post-body">
+        {{ post.contenu }}
+      </div>
+    </article>
+
+    <hr class="separator">
+
+    <!-- SECTION COMMENTAIRES -->
+    <section class="comments-section">
+      <h3>Commentaires</h3>
+
+      <!-- Liste des commentaires -->
+      <div class="comments-list">
+        @for (comment of comments; track comment.id) {
+          <div class="comment-item">
+            <div class="comment-header">
+              <span class="comment-author">{{ comment.authorName }}</span>
+              <span class="comment-date">{{ comment.createdAt | date:'short' }}</span>
+            </div>
+            <div class="comment-content">
+              {{ comment.contenu }}
+            </div>
+          </div>
+        } @empty {
+          <p class="no-comments">Soyez le premier à réagir !</p>
+        }
+      </div>
+
+      <!-- Formulaire pour ajouter un commentaire -->
+      <form [formGroup]="commentForm" (ngSubmit)="sendComment()" class="add-comment-form">
+        <textarea 
+          formControlName="contenu" 
+          placeholder="Écrivez un commentaire..." 
+          rows="3">
+        </textarea>
+        <div class="form-actions">
+          <button type="submit" [disabled]="commentForm.invalid" class="btn-send">
+            Envoyer le commentaire
+          </button>
+        </div>
+      </form>
+
+    </section>
+  } @else {
+    <div class="loading">Chargement de l'article...</div>
+  }
+</div>

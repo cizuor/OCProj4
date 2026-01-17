@@ -11,7 +11,7 @@
       <small>Par {{ post.userName }} le {{ post.createdAt | date:'short' }}</small>
       <p>Thème : <strong>{{ post.topicName }}</strong></p>
       <p>{{ post.contenu }}</p>
-      <button [routerLink]="['/articles', post.id]">Lire la suite / Commentaires</button>
+      <button [routerLink]="[post.id]">Lire la suite / Commentaires</button>
     </div>
   } @empty {
     <p>Aucun article à afficher. Abonnez-vous à des thèmes !</p>

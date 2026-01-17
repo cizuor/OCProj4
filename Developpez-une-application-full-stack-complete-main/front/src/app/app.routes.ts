@@ -3,6 +3,7 @@ import { RegisterComponent } from "./features/auth/components/register-component
 import { LoginComponent } from "./features/auth/components/login-component/login-component";
 import { PostListComponent } from "./features/posts/components/post-list-component/post-list-component";
 import { PostComponent } from "./features/posts/components/post-component/post-component";
+import { PostDetailComponent } from "./features/posts/components/post-detail-component/post-detail-component";
 
 export const routes: Routes = [
   {
@@ -34,6 +35,11 @@ export const routes: Routes = [
         path: 'create',
         component: PostComponent,
         data: { title: 'articles - create' },
+      },
+      {
+        path: ':id',
+        component: PostDetailComponent,
+        data: { title: 'article' },
       },
      ]
   }
