@@ -12,3 +12,4 @@ insert into posts (author_id, topic_id,titre,contenu, created_at ) values ( 1,2,
 insert into comments (author_id,created_at,post_id,contenu) values (1,CURRENT_TIMESTAMP,1,'ou pour les vrais mec assembleur');
 
 insert into user_subscriptions (topic_id,user_id) values (1,1);
+insert into user_subscriptions (topic_id,user_id) values (2,1);

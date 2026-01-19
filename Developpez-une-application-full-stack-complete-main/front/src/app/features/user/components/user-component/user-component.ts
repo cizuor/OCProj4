@@ -61,7 +61,9 @@ export class UserComponent implements OnInit{
   }
 
   handleSubscription(topic: Topic) {
-      this.topicService.unsubscribe(topic.id).subscribe(newTopics => this.lTopics = newTopics);
+    this.topicService.unsubscribe(topic.id).subscribe(allTopics => {
+    this.lTopics = allTopics.filter(t => t.liked);
+  });
   }
 
 }
