@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { User } from '../interfaces/user.interface';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { UpdateRequest } from '../interfaces/updateRequest.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -27,4 +28,8 @@ export class UserService {
   }
 
   // put /me
+
+  public update(req: UpdateRequest):Observable<User> {
+    return this.http.put<User>(`${environment.userPath}/me`, req);
+  }
 }

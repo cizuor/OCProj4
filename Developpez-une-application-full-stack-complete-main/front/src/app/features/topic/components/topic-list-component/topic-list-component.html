@@ -1,0 +1,13 @@
+<h3> Liste themes </h3>
+
+<div class="page-layout">
+    <div class="topics-grid">
+        @for (topic of lTopics; track topic.id) {
+            <app-topic-card 
+                [topic]="topic" 
+                [isProfileMode]="false" 
+                (onToggle)="handleSubscription(topic)">
+            </app-topic-card>
+        }
+    </div>
+</div>

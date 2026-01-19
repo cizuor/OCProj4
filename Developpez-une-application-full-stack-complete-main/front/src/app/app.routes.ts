@@ -4,6 +4,8 @@ import { LoginComponent } from "./features/auth/components/login-component/login
 import { PostListComponent } from "./features/posts/components/post-list-component/post-list-component";
 import { PostComponent } from "./features/posts/components/post-component/post-component";
 import { PostDetailComponent } from "./features/posts/components/post-detail-component/post-detail-component";
+import { UserComponent } from "./features/user/components/user-component/user-component";
+import { TopicListComponent } from "./features/topic/components/topic-list-component/topic-list-component";
 
 export const routes: Routes = [
   {
@@ -20,8 +22,12 @@ export const routes: Routes = [
     component: LoginComponent
   },
   {
-    path: 'articles', 
-    component: PostListComponent 
+    path: 'profil',
+    component: UserComponent
+  },
+  {
+    path: 'themes',
+    component: TopicListComponent
   },
   {
     path: 'articles', 

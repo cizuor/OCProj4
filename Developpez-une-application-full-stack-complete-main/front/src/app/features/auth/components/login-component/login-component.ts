@@ -35,7 +35,7 @@ export class LoginComponent {
         // On récupère les infos de l'utilisateur pour la session
         this.authService.me().subscribe((user) => {
           this.sessionService.logIn(user);
-          this.router.navigate(['/api/articles']); // Redirection
+          this.router.navigate(['/articles']); // Redirection
         });
       },
       error: _ => this.error = true

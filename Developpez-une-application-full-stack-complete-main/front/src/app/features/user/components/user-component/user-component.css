@@ -1,0 +1,57 @@
+.profile-container {
+  max-width: 600px; /* Container étroit comme sur la maquette */
+  margin: 40px auto;
+  text-align: center;
+}
+
+h1, h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #7367cd; /* Bordure violette */
+  border-radius: 8px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.btn-save {
+  background-color: #7367cd;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 10px auto;
+  width: 200px;
+}
+
+.separator {
+  margin: 40px 0;
+  border: 0;
+  border-top: 1px solid #999;
+}
+
+.topics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 colonnes */
+  gap: 20px;
+  text-align: left; /* Les cartes restent alignées à gauche */
+}
+
+@media (max-width: 600px) {
+  .topics-grid {
+    grid-template-columns: 1fr; /* 1 colonne sur mobile */
+  }
+}
