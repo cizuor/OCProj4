@@ -12,7 +12,7 @@ import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.payload.request.LoginRequest;
 import com.openclassrooms.mddapi.payload.request.SignUpRequest;
 import com.openclassrooms.mddapi.repository.UserRepository;
-import com.openclassrooms.mddapi.security.jwt.jwtUtils;
+import com.openclassrooms.mddapi.security.jwt.JwtUtils;
 
 
 @Service
@@ -28,7 +28,7 @@ public class AuthService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private jwtUtils jwtUtils;
+    private JwtUtils jwtUtils;
 
     public Authentication authenticate(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(

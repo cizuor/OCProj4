@@ -50,7 +50,7 @@ public class User {
     
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-			name = "user_subscriptions", // Nom de la table de jointure
+			name = "user_subscriptions", 
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "topic_id")
         )

@@ -77,6 +77,14 @@
           },
           "defaultConfiguration": "development"
         },
+        "serve-coverage": {
+            "builder": "ngx-build-plus:dev-server",
+            "options": {
+              "buildTarget": "mdd-client:build",
+              "extraWebpackConfig": "coverage.webpack.js",
+              "proxyConfig": "proxy.conf.json"
+            }
+          },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {

@@ -21,7 +21,7 @@ import com.openclassrooms.mddapi.security.services.UserDetailsServiceImpl;
 public class AuthTokenFilter extends OncePerRequestFilter{
 	private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 	@Autowired
-    private jwtUtils jwtUtils;
+    private JwtUtils jwtUtils;
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;

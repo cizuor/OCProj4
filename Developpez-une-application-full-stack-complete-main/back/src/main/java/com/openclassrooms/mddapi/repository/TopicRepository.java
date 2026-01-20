@@ -13,7 +13,7 @@ import com.openclassrooms.mddapi.models.Topic;
 public interface TopicRepository  extends JpaRepository<Topic, Long>{
 	
 	
-	//sans la commande il cherche la colonne userID dans la table theme
+	// sans la requette sql il cherche la colonne userID dans la table theme
 	@Query("SELECT t FROM User u JOIN u.abonnements t WHERE u.id = :userId")
 	List<Topic> findByUsersId(Long userId);
 	

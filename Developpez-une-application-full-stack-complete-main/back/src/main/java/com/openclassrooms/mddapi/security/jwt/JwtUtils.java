@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-public class jwtUtils {
+public class JwtUtils {
 	
 	@Value("${oc.app.jwtSecret}")
 	private String jwtSecret;

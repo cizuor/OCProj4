@@ -112,11 +112,15 @@ public class PostServiceTest {
 
     @Test
     void findByThemeId_ShouldFilterPosts() {
+    	// ARANGE
+    	Long javaId = topicJava.getId();
     	// ACT
-        List<PostDTO> results = postService.findByThemeId(Arrays.asList(topicJava.getId()));
+        List<PostDTO> results = postService.findByThemeId(Arrays.asList(javaId));
         // ASSERT
-        assertThat(results).hasSize(1);
-        assertThat(results.get(0).getTitre()).isEqualTo("Premier Post");
+        assertThat(results).isNotEmpty();
+        assertThat(results).allMatch(post -> post.getTopicId().equals(javaId));
+        assertThat(results).extracting(PostDTO::getTitre)
+        .contains("Premier Post");
     }
 
     @Test
@@ -164,21 +168,25 @@ public class PostServiceTest {
         // On crée un deuxième post un peu plus tard (on attend 10ms pour être sûr de la différence de timestamp)
         Thread.sleep(100);
         // ARRANGE
+        List<Long> topicIds = Arrays.asList(topicJava.getId());
+        int countBefore = postService.findByThemeId(topicIds).size();
+        
         Post secondPost = new Post();
-        secondPost.setTitre("Second Post");
+        secondPost.setTitre("Dernier Post");
         secondPost.setContenu("Contenu 2");
         secondPost.setAuteur(author);
         secondPost.setTopic(topicJava);
         postRepository.save(secondPost);
 
         // ACT
-        List<PostDTO> results = postService.findByThemeIdOrderByCreateAtAsc(Arrays.asList(topicJava.getId()));
+        List<PostDTO> results = postService.findByThemeIdOrderByCreateAtAsc(topicIds );
 
         // ASSERT
-        assertThat(results).hasSize(2);
-        // Le premier post créé doit être en premier (ASC)
-        assertThat(results.get(0).getTitre()).isEqualTo("Premier Post");
-        assertThat(results.get(1).getTitre()).isEqualTo("Second Post");
+        assertThat(results).hasSize(countBefore+1);
+        // Le dernier post créé doit être en dernier (ASC)
+        PostDTO lastPost = results.get(results.size() - 1);
+        assertThat(lastPost.getTitre()).isEqualTo("Dernier Post");
+        assertThat(results.get(0).getCreatedAt()).isBefore(lastPost.getCreatedAt());
     }
 
 }

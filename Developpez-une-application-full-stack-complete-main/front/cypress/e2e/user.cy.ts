@@ -3,10 +3,10 @@ describe('User Profile E2E Tests', () => {
 
   beforeEach(() => {
     
-    const uniqueId = Date.now();
+    const id = Math.floor(Math.random() * 1000000);
     testUser = {
-        pseudo: `user_${uniqueId}`,
-        email: `test_${uniqueId}@test.fr`,
+        pseudo: `user_${id}`,
+        email: `test_${id}@test.fr`,
         mdp: 'test123!'
     };
 

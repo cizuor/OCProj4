@@ -13,6 +13,8 @@ import java.util.List;
 import lombok.*;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 
@@ -31,11 +33,13 @@ public class Post {
 	@NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "topic_id", nullable = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
     private Topic topic;
 	
 	@NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", nullable = false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private User auteur;
 	
 	@NotBlank
