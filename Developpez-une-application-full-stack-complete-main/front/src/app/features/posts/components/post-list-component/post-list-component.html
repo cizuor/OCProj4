@@ -1,19 +1,29 @@
 <div class="container">
-  <div class="header-actions">
-    <h1>Fil d'actualités</h1>
+  <div class="actions-bar">
     <button class="btn-create" [routerLink]="['create']">
         Créer un article
       </button>
-  </div>
-  @for (post of posts; track post.id) {
-    <div class="post-card" style="border: 1px solid #ccc; margin-bottom: 10px; padding: 10px;">
-      <h2>{{ post.titre }}</h2>
-      <small>Par {{ post.userName }} le {{ post.createdAt | date:'short' }}</small>
-      <p>Thème : <strong>{{ post.topicName }}</strong></p>
-      <p>{{ post.contenu }}</p>
-      <button [routerLink]="[post.id]">Lire la suite / Commentaires</button>
+
+    <div class="sort-link" (click)="toggleSort()">
+      Trier par <span class="arrow">@if(sortDirection === 'desc'){ ↓ } @else { ↑ }</span>
     </div>
-  } @empty {
-    <p>Aucun article à afficher. Abonnez-vous à des thèmes !</p>
-  }
+  </div>
+
+
+  <!-- tableau de post -->
+  <div class="post-grid">
+    @for (post of posts; track post.id) {
+      <div class="post-card"  [routerLink]="[post.id]">
+        <h2 class="post-title">{{ post.titre }}</h2>
+        
+        <div class="post-meta">
+          <span class="date">{{ post.createdAt | date:'dd/MM/yyyy' }}</span>
+          <span class="author">{{ post.userName }}</span>
+        </div>
+        <p class="post-body" >{{ post.contenu }}</p>
+      </div>
+    } @empty {
+      <p class="empty-msg">Aucun article à afficher. Abonnez-vous à des thèmes !</p>
+    }
+  </div>
 </div>

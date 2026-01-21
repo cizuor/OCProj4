@@ -14,11 +14,27 @@ export class PostListComponent implements OnInit {
   private postService = inject(PostService);
   public posts: Post[] = [];
 
+  public sortDirection: string = 'desc';
+
   ngOnInit(): void {
-    this.postService.getFeed('desc').subscribe({
-      next: (data) => this.posts = data,
-      error: (err) => console.error('Erreur chargement articles', err)
-    });
+    this.loadPosts();
+  }
+
+  loadPosts() {
+    this.postService.getFeed(this.sortDirection).subscribe(data => this.posts = data);
+  }
+
+
+  toggleSort(): void{
+
+    if(this.sortDirection == 'asc'){
+      this.sortDirection = 'desc';
+    }else{
+      this.sortDirection = 'asc'
+    }
+
+    this.loadPosts();
+    
   }
 
 }

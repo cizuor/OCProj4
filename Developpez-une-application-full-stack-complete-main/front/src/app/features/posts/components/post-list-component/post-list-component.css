@@ -1,20 +1,110 @@
-.header-actions {
+.container {
+  width: 85%; 
+  margin: 0 auto;
+  padding: 4%;
+}
+
+
+/* --- Barre d'actions --- */
+.actions-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 3%;
 }
 
 .btn-create {
-  background-color: #673ab7; /* Couleur violette par exemple */
+  background-color: #7367cd; 
   color: white;
-  padding: 10px 20px;
+  padding: 10px 25px;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.sort-link {
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.post-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 colonnes */
+  gap: 3%;
+}
+
+
+/* --- Carte des post --- */
+.post-card {
+  background-color: #F2F2F2; 
+  border-radius: 15px;
+  padding: 5%;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  min-width: 0; 
+}
+
+.post-card:hover {
+  transform: scale(1.02);
+}
+
+.post-title {
+  margin: 0;
+  font-size: 1.4rem;
   font-weight: bold;
 }
 
-.btn-create:hover {
-  background-color: #512da8;
+.post-meta {
+  display: flex;
+  gap: 10%; /* Date à gauche, Auteur à droite */
+  margin: 15px 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.post-content {
+  margin: 0;
+  color: #333;
+  line-height: 1.5;
+}
+
+.post-body{
+  /* 1. Casse les mots trop longs pour aller à la ligne */
+  overflow-wrap: break-word;  
+  word-wrap: break-word;
+  word-break: break-all; 
+
+  /* Tronquer le texte après 4 lignes pour garder l'harmonie */
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+ .container, .header-content {
+    width: 95%; /* Sur mobile, on prend presque tout l'écran */
+  }
+  .actions-bar {
+    flex-direction: column; /* On empile sur mobile */
+    gap: 20px;
+    text-align: center;
+  }
+
+  .post-grid {
+    grid-template-columns: 1fr; /* 1 colonne sur mobile */
+  }
+
+   .btn-create {
+    width: 100%; /* Bouton large sur mobile */
+    max-width: 300px;
+  }
 }

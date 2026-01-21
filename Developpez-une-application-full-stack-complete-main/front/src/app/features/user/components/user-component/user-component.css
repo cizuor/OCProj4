@@ -50,7 +50,7 @@ h1, h2 {
   text-align: left; /* Les cartes restent alignées à gauche */
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .topics-grid {
     grid-template-columns: 1fr; /* 1 colonne sur mobile */
   }

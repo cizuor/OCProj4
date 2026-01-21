@@ -1,0 +1,62 @@
+
+.auth-wrapper {
+  position: relative; /* Important pour le positionnement de la flèche sur mobile */
+  min-height: 100vh;
+}
+
+
+.header-container {
+  display: flex;
+  width: 85%;
+  padding: 20px 40px;
+  
+
+  justify-content: flex-start; 
+  
+
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.logo {
+  height: 80px; 
+  width: auto;
+}
+
+
+.back-icon {
+  width: 45px;
+  cursor: pointer;
+  margin-top: 20px;  
+  margin-left: 40px; 
+  display: block;
+}
+
+.auth-content {
+  padding: 20px;
+}
+
+/* --- Mode Téléphone (Mobile) --- */
+/* 768px est le standard pour les tablettes/mobiles */
+@media (max-width: 768px) {
+  .header-container {
+    justify-content: center;
+    padding: 60px 0 20px 0;
+    border-bottom: none; 
+  }
+
+  .logo {
+    height: 90px;
+  }
+
+   .back-icon {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    margin: 0; 
+    width: 30px;
+  }
+  
+  .auth-content {
+    text-align: center;
+  }
+}

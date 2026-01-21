@@ -6,47 +6,65 @@ import { PostComponent } from "./features/posts/components/post-component/post-c
 import { PostDetailComponent } from "./features/posts/components/post-detail-component/post-detail-component";
 import { UserComponent } from "./features/user/components/user-component/user-component";
 import { TopicListComponent } from "./features/topic/components/topic-list-component/topic-list-component";
+import { AuthLayout } from "./layouts/auth-layout/auth-layout";
+import { MainLayout } from "./layouts/main-layout/main-layout";
+import { authGuard } from "./core/gards/auth.guard";
+import { AccueilComponent } from "./features/accueil/components/accueil-component/accueil-component";
 
 export const routes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
-    redirectTo: 'login',
+    component: AccueilComponent
   },
+  // groupe authlayout (image)
   {
-    path: 'register',
-    component: RegisterComponent
+    path: '',
+    component: AuthLayout,
+    children: [
+    {
+      path: 'register',
+      component: RegisterComponent
+    },
+    {
+      path: 'login',
+      component: LoginComponent
+    }
+    ]
   },
+  // groupe autre
   {
-    path: 'login',
-    component: LoginComponent
-  },
-  {
-    path: 'profil',
-    component: UserComponent
-  },
-  {
-    path: 'themes',
-    component: TopicListComponent
-  },
-  {
-    path: 'articles', 
-     children: [
-      {
-        path: '',
-        component: PostListComponent,
-        data: { title: 'articles' },
-      },
-      {
-        path: 'create',
-        component: PostComponent,
-        data: { title: 'articles - create' },
-      },
-      {
-        path: ':id',
-        component: PostDetailComponent,
-        data: { title: 'article' },
-      },
-     ]
+  path: '',
+  component: MainLayout, // Un autre composant avec une barre de menu différente
+  canActivate: [authGuard],
+  children: [
+    {
+      path: 'profil',
+      component: UserComponent
+    },
+    {
+      path: 'themes',
+      component: TopicListComponent
+    },
+    {
+      path: 'articles', 
+      children: [
+        {
+          path: '',
+          component: PostListComponent,
+          data: { title: 'articles' },
+        },
+        {
+          path: 'create',
+          component: PostComponent,
+          data: { title: 'articles - create' },
+        },
+        {
+          path: ':id',
+          component: PostDetailComponent,
+          data: { title: 'article' },
+        },
+      ]
+    }
+    ]
   }
 ];

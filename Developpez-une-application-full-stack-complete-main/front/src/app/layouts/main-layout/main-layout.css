@@ -1,0 +1,141 @@
+/* --- HEADER STRUCTURE --- */
+.header-outer {
+    width: 100%;
+    border-bottom: 1px solid #e0e0e0;
+    background: white;
+    display: flex;
+    justify-content: center; /* Centre le header-inner */
+    min-height: 100px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-inner {
+    width: 85%; /* Aligné avec tes articles */
+    display: flex;
+    justify-content: space-between; /* Logo à gauche, Nav/Burger à droite */
+    align-items: center;
+    padding: 10px 0;
+}
+
+.logo {
+    height: 80px;
+    width: auto;
+    cursor: pointer;
+}
+
+/* --- DESKTOP NAV --- */
+.desktop-nav {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+.desktop-nav a {
+    text-decoration: none;
+    color: black;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.user-icon {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    cursor: pointer;
+    object-fit: cover;
+}
+
+.logout-link { color: #d32f2f !important; }
+.active { color: #7367cd !important; }
+
+/* --- MOBILE HAMBURGER --- */
+.mobile-hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.bar {
+    width: 30px;
+    height: 3px;
+    background-color: black;
+    border-radius: 2px;
+}
+
+/* --- MOBILE SIDEBAR --- */
+.mobile-sidebar {
+    position: fixed;
+    top: 0;
+    right: -100%; /* Sorti de l'écran */
+    width: 60%;
+    height: 100vh;
+    background: white;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    padding: 100px 40px 40px 40px;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+    transition: right 0.3s ease-in-out;
+    box-sizing: border-box;
+}
+
+.mobile-sidebar.open {
+    right: 0; /* Glisse vers la gauche */
+}
+
+.menu-links {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: flex-end; /* Texte à droite dans la sidebar */
+}
+
+.menu-links a {
+    text-decoration: none;
+    font-size: 1.3rem;
+    color: black;
+    font-weight: 600;
+}
+
+.menu-footer {
+    margin-top: auto; /* Pousse l'image tout en bas */
+    display: flex;
+    justify-content: flex-end;
+}
+
+.user-icon-large {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+}
+
+.menu-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 999;
+}
+
+/* --- RESPONSIVE 768px --- */
+@media (max-width: 768px) {
+    .header-inner {
+        width: 90%; /* On prend un peu plus de place sur mobile */
+    }
+
+    .desktop-nav {
+        display: none;
+    }
+
+    .mobile-hamburger {
+        display: flex;
+    }
+
+    .logo {
+        height: 50px;
+    }
+}

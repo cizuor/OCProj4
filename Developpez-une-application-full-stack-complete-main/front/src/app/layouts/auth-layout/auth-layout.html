@@ -1,0 +1,17 @@
+<div class="auth-wrapper">
+
+    <header class="header-container">
+        <img src="assets/logo-mdd.png" alt="MDD Logo" class="logo">
+    </header>
+
+    <img 
+        src="assets/back.png" 
+        alt="Retour" 
+        class="back-icon" 
+        (click)="goBack()"
+    >
+
+    <main class="auth-content">
+        <router-outlet></router-outlet>
+    </main>
+</div>

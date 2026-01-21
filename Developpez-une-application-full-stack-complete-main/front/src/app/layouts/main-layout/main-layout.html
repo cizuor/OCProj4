@@ -1,0 +1,49 @@
+<div class="main-wrapper">
+    <!-- Conteneur 100% pour la bordure -->
+    <header class="header-outer">
+        <!-- Conteneur 85% centré pour le contenu -->
+        <div class="header-inner">
+            
+            <img src="assets/logo-mdd.png" alt="MDD Logo" class="logo" routerLink="/articles">
+
+            <!-- NAVIGATION DESKTOP -->
+            <nav class="desktop-nav">
+                <a (click)="logout()" class="logout-link">Se déconnecter</a>
+                <a routerLink="/articles" routerLinkActive="active">Articles</a>
+                <a routerLink="/themes" routerLinkActive="active">Thèmes</a>
+                <div class="profile-icon-wrapper" routerLink="/profil">
+                    <img src="assets/profil.png" alt="Profil" class="user-icon">
+                </div>
+            </nav>
+
+            <!-- BOUTON HAMBURGER MOBILE -->
+            <div class="mobile-hamburger" (click)="toggleMenu()">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- OVERLAY -->
+    @if (isMenuOpen) {
+        <div class="menu-overlay" (click)="toggleMenu()"></div>
+    }
+
+    <!-- SIDEBAR MOBILE (60%) -->
+    <nav class="mobile-sidebar" [class.open]="isMenuOpen">
+        <div class="menu-links">
+            <a (click)="logout()" class="logout-link">Se déconnecter</a>
+            <a routerLink="/articles" (click)="toggleMenu()" routerLinkActive="active">Articles</a>
+            <a routerLink="/themes" (click)="toggleMenu()" routerLinkActive="active">Thèmes</a>
+        </div>
+
+        <div class="menu-footer">
+            <img src="assets/profil.png" alt="Mon Profil" class="user-icon-large" routerLink="/profil" (click)="toggleMenu()">
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <router-outlet></router-outlet>
+    </main>
+</div>

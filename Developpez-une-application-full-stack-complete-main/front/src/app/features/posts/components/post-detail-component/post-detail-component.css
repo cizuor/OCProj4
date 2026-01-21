@@ -90,6 +90,9 @@
 .comment-content {
   color: #555;
   line-height: 1.4;
+  overflow-wrap: break-word;  
+  word-wrap: break-word;
+  word-break: break-all; 
 }
 
 /* Formulaire d'ajout */
