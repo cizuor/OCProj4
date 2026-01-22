@@ -1,5 +1,6 @@
 .profile-container {
-  max-width: 600px; /* Container étroit comme sur la maquette */
+  max-width: 50%;
+  min-width: 200px; 
   margin: 40px auto;
   text-align: center;
 }
@@ -41,6 +42,12 @@ h1, h2 {
   margin: 40px 0;
   border: 0;
   border-top: 1px solid #999;
+}
+
+.topic-container {
+  width: 80%; 
+  margin: 40px auto;
+  text-align: center;
 }
 
 .topics-grid {

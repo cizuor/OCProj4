@@ -1,14 +1,23 @@
-<div class="login-container">
-  <h2>Connexion</h2>
-  
-  <form [formGroup]="form" (ngSubmit)="submit()">
-    <input type="text" formControlName="login" placeholder="Email ou Pseudo">
-    <input type="password" formControlName="password" placeholder="Mot de passe">
+<div class="page-container">
+  <div class="login-container">
+    <h2>Se connecter</h2>
     
-    <button type="submit" [disabled]="form.invalid">Se connecter</button>
+    <form [formGroup]="form" (ngSubmit)="submit()" class="login-form">
 
-    @if (error) {
-      <p class="error">Identifiants incorrects</p>
-    }
-  </form>
+      <div class="form-field">
+        <label for="pseudo">E-mail ou nom d'utilisateur</label>
+        <input id="pseudo" type="text" formControlName="login">
+      </div>
+      <div class="form-field">
+        <label for="password">Mot de passe</label>
+        <input id="password" type="password" formControlName="password">
+      </div>
+      <div class="form-actions">
+        <button type="submit" [disabled]="form.invalid" class="btn-submit">Se connecter</button>
+      </div>
+      @if (error) {
+        <p class="error">Identifiants incorrects</p>
+      }
+    </form>
+  </div>
 </div>

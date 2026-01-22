@@ -4,14 +4,13 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Topic } from 'src/app/core/interfaces/topic.interface';
 import { UpdateRequest } from 'src/app/core/interfaces/updateRequest.interface';
-import { User } from 'src/app/core/interfaces/user.interface';
 import { TopicService } from 'src/app/core/services/topic-service';
 import { UserService } from 'src/app/core/services/user-service';
 import { TopicCardComponent } from "src/app/features/topic/components/topic-card-component/topic-card-component";
 
 @Component({
   selector: 'profil',
-  imports: [CommonModule,ReactiveFormsModule, RouterLink, TopicCardComponent],
+  imports: [CommonModule,ReactiveFormsModule, TopicCardComponent],
   templateUrl: './user-component.html',
   styleUrl: './user-component.css',
 })
@@ -22,16 +21,16 @@ export class UserComponent implements OnInit{
   private fb = inject(FormBuilder);
 
   public lTopics : Topic[] = [];
-  public userForm!: FormGroup;
 
 
-  ngOnInit(): void {
 
-    this.userForm = this.fb.group({
+  public userForm = this.fb.group({
       pseudo: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: [''] 
     });
+
+  ngOnInit(): void {
 
     this.userService.getMe().subscribe(user => {
       this.userForm.patchValue({
@@ -49,13 +48,22 @@ export class UserComponent implements OnInit{
 
   onSave(): void {
     if (this.userForm.valid) {
+
+      const formValues = this.userForm.value;
        const updateData: UpdateRequest = {
-        pseudo: this.userForm.value.pseudo,
-        email: this.userForm.value.email
+        pseudo: formValues.pseudo ?? '',
+        email: formValues.email?? ''
       };
+
+      if (formValues.password && formValues.password.trim() !== '') {
+        updateData.password = formValues.password;
+      }
       this.userService.update(updateData).subscribe({
-        next: () => alert('Profil mis à jour '),
-        error: (err) => console.error(err)
+        next: (updatedUser) => {
+          alert('Profil mis à jour '),
+          this.userForm.get('password')?.reset();
+        },
+        error: (err) => console.error('Erreur lors de la mise à jour ',err)
       });
     }
   }

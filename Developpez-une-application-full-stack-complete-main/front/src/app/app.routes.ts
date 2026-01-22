@@ -14,7 +14,8 @@ import { AccueilComponent } from "./features/accueil/components/accueil-componen
 export const routes: Routes = [
   {
     path: '',
-    component: AccueilComponent
+    component: AccueilComponent,
+    pathMatch: 'full' 
   },
   // groupe authlayout (image)
   {

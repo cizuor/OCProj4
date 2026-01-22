@@ -51,6 +51,15 @@
 
 /* --- MODE TABLETTE / SMARTPHONE --- */
 @media (max-width: 768px) {
+
+  .home-container {
+    padding-bottom: 50%; 
+  }
+  .logo-wrapper {
+    justify-content: flex-start; 
+    /* marge pour ne pas que le logo touche le haut */ 
+    margin-bottom: 20%; /* Espace entre le logo et les boutons */
+  }
   .main-logo {
     max-width: 250px; /* Logo plus petit sur mobile */
   }
@@ -58,7 +67,7 @@
   .button-group {
     flex-direction: column; /* Un au-dessus de l'autre */
     align-items: center;
-    gap: 20px; /* Moins d'espace entre les boutons */
+    gap: 45px; /* espace entre les boutons */
   }
 
   .btn {

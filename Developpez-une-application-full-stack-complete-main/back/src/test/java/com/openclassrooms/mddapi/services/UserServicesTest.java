@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.openclassrooms.mddapi.dto.UserDTO;
 import com.openclassrooms.mddapi.models.Topic;
 import com.openclassrooms.mddapi.models.User;
+import com.openclassrooms.mddapi.payload.request.UpdateUserRequest;
 import com.openclassrooms.mddapi.repository.TopicRepository;
 import com.openclassrooms.mddapi.repository.UserRepository;
 
@@ -73,7 +74,7 @@ public class UserServicesTest {
     @Test
     void update_ShouldModifyUser_WhenValidData() {
     	// ARRANGE
-        UserDTO updateInfo = new UserDTO();
+        UpdateUserRequest updateInfo = new UpdateUserRequest();
         updateInfo.setPseudo("NewPseudo");
         updateInfo.setEmail("new@test.com");
 

@@ -1,0 +1,107 @@
+.register-container {
+    width: 30%;
+    min-width: 380px; /* Largeur mini fixe sur PC pour un look propre */
+    text-align: center; /* Centre le titre H2 et les éléments en ligne */
+
+    display: flex;/* centre les champ */
+    align-items: center; 
+    flex-direction: column; 
+    padding-top: 1%;
+}
+
+.page-container {
+  display: flex;
+  justify-content: center; /* Centre horizontalement sur PC */
+  width: 100%;
+  padding-top: 1%; /* Espace sous la flèche de retour */
+}
+
+h2 {
+  /* Assure que le titre prend toute la largeur pour se centrer */
+  width: 100%;
+  text-align: center; 
+  margin-bottom: 30px; /* Espace entre le titre et le premier champ */
+}
+
+.register-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0px; /* Espace entre le label et l'input */
+  text-align: left;
+}
+
+.form-field label {
+  font-size: 0.9rem;
+  color: #333;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.form-field input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1.5px solid #000; /* Bordure noire fine */
+  border-radius: 8px; /* Arrondi des angles */
+  font-size: 1rem;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.btn-submit {
+  background-color: #7367cd; /* Le violet MDD */
+  color: white;
+  border: none;
+  padding: 12px 0;
+  width: 180px; /* Largeur fixe pour le bouton */
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-submit:disabled {
+  background-color: #9e9e9e; /* Gris si invalide */
+  cursor: not-allowed;
+}
+
+.error-msg {
+  color: #d32f2f;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* --- ADAPTATION MOBILE --- */
+@media (max-width: 768px) {
+
+    .register-container {
+        width: 80%; /* presque tout l'écran sur telephone*/
+        min-width: 50px; /* Largeur fixe sur android pour un look propre */
+
+    }
+  h2 {
+    margin-top: 20px;
+    margin-bottom: 30px;
+  }
+
+  .register-form {
+    max-width: 90%; /* Prend plus de place sur mobile */
+  }
+
+  .btn-submit {
+    width: 60%; /* Le bouton prend toute la largeur sur mobile */
+  }
+}

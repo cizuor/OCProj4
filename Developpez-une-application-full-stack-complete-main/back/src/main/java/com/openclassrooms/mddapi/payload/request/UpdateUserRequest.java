@@ -13,5 +13,7 @@ public class UpdateUserRequest {
 	
 	@NotBlank
 	private String pseudo;
+	
+	private String password;
 
 }

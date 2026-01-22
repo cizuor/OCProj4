@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { RouterModule } from "@angular/router";
+import { Router, RouterModule } from "@angular/router";
 import { Location } from '@angular/common';
 import { SessionService } from 'src/app/core/services/session.service';
 
@@ -12,6 +12,7 @@ import { SessionService } from 'src/app/core/services/session.service';
 export class MainLayout {
   private sessionService = inject(SessionService);
   private location = inject(Location);
+  private router = inject(Router);
 
   public isMenuOpen = false;
 
@@ -25,6 +26,7 @@ export class MainLayout {
 
   logout() {
     this.sessionService.logOut();
+    this.router.navigate(['/']); 
   }
 
 }

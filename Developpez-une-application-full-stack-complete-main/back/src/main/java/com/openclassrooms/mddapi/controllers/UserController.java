@@ -36,7 +36,6 @@ public class UserController {
 	
 	@GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable("id") Long id) {
-			// todo faire un userpublicDTO pour ne pas laisser la possibilité d'obtenir les mail des utilisateur
             UserDTO user = this.userService.getUserById(id);
             user.setEmail("hide@information.com");            
             return ResponseEntity.ok().body(user);
@@ -82,11 +81,8 @@ public class UserController {
 	                                     .getAuthentication().getPrincipal();
 	    
 	    
-	    UserDTO userDto = new UserDTO();
-	    userDto.setPseudo(updateRequest.getPseudo());
-	    userDto.setEmail(updateRequest.getEmail());
 	    
-	    UserDTO updatedUser = userService.update(userDetails.getId(), userDto);
+	    UserDTO updatedUser = userService.update(userDetails.getId(), updateRequest);
 	    
 	    return ResponseEntity.ok(updatedUser);
 	}
