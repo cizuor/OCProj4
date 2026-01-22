@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Topic } from 'src/app/core/interfaces/topic.interface';
 import { PostService } from 'src/app/core/services/post-service';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -9,8 +9,8 @@ import { TopicService } from 'src/app/core/services/topic-service';
 
 @Component({
   selector: 'app-post',
-  imports: [CommonModule, 
-    ReactiveFormsModule],
+  imports: [CommonModule,
+    ReactiveFormsModule, RouterLink],
   templateUrl: './post-component.html',
   styleUrl: './post-component.css',
 })

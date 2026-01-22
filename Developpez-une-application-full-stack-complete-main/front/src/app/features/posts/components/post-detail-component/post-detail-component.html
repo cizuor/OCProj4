@@ -1,64 +1,56 @@
 <div class="detail-container">
   
-  <!-- BOUTON RETOUR -->
-  <button class="btn-back" [routerLink]="['/articles']">← Retour aux articles</button>
+  <div class="header-section">
+    <img src="assets/back.png" class="btn-back" [routerLink]="['/articles']" alt="Retour">
+    @if (post) {
+      <h1>{{ post.titre }}</h1>
+    }
+  </div>
 
-  <!-- SECTION ARTICLE -->
   @if (post) {
-    <article class="post-full">
-      <header class="post-header">
-        <h1>{{ post.titre }}</h1>
-        <div class="post-meta">
-          <span class="date">{{ post.createdAt | date:'longDate' }}</span>
-          <span class="author">par <strong>{{ post.userName }}</strong></span>
-          <span class="topic-badge">{{ post.topicName }}</span>
-        </div>
-      </header>
+    <article class="post-content">
+      <div class="post-meta">
+        <span class="meta-date">{{ post.createdAt | date:'dd/MM/yyyy' }}</span>
+        <span class="meta-author">{{ post.userName }}</span>
+        <span class="meta-topic topic-tag">{{ post.topicName }}</span>
+      </div>
 
       <div class="post-body">
-        {{ post.contenu }}
+        <span class="content-label">Content:</span> {{ post.contenu }}
       </div>
     </article>
 
     <hr class="separator">
 
-    <!-- SECTION COMMENTAIRES -->
     <section class="comments-section">
-      <h3>Commentaires</h3>
+      <h2>Commentaires</h2>
 
-      <!-- Liste des commentaires -->
       <div class="comments-list">
         @for (comment of comments; track comment.id) {
-          <div class="comment-item">
-            <div class="comment-header">
-              <span class="comment-author">{{ comment.authorName }}</span>
-              <span class="comment-date">{{ comment.createdAt | date:'short' }}</span>
-            </div>
-            <div class="comment-content">
+          <div class="comment-row">
+            <span class="comment-author">{{ comment.authorName }}</span>
+            <div class="comment-bubble">
               {{ comment.contenu }}
             </div>
           </div>
         } @empty {
-          <p class="no-comments">Soyez le premier à réagir !</p>
+          <p class="no-comments">Aucun commentaire pour le moment.</p>
         }
       </div>
 
-      <!-- Formulaire pour ajouter un commentaire -->
-      <form [formGroup]="commentForm" (ngSubmit)="sendComment()" class="add-comment-form">
-        <textarea 
-          formControlName="contenu" 
-          placeholder="Écrivez un commentaire..." 
-          rows="3">
-        </textarea>
-        <div class="form-actions">
-          <button type="submit" [disabled]="commentForm.invalid" class="btn-send">
-            Envoyer le commentaire
+      <!-- Zone de saisie avec icône -->
+      <form [formGroup]="commentForm" (ngSubmit)="sendComment()" class="comment-form-container">
+        <div class="input-wrapper">
+          <textarea 
+            formControlName="contenu" 
+            placeholder="Écrivez ici votre commentaire" 
+            rows="3">
+          </textarea>
+          <button type="submit" [disabled]="commentForm.invalid" class="btn-icon-send">
+            <img src="assets/send-icon.png" alt="Envoyer">
           </button>
         </div>
       </form>
-
     </section>
-  } @else {
-    <div class="loading">Chargement de l'article...</div>
   }
 </div>

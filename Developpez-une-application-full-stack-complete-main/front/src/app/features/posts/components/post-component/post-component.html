@@ -1,37 +1,36 @@
+<div class="page-container">
+  <!-- En-tête avec flèche et titre -->
+  <div class="header-section">
+    <img src="assets/back.png" class="btn-back" [routerLink]="['/articles']" alt="Retour">
+    <h1>Créer un nouvel article</h1>
+  </div>
 
-<div class="create-post-container">
-  <h1>Créer un nouvel article</h1>
+  <div class="form-wrapper">
+    <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+      
+      <div class="form-field">
+        <select id="topicId" formControlName="topicId">
+          <option value="" disabled selected>Sélectionner un thème</option>
+          @for (topic of topics; track topic.id) {
+            <option [value]="topic.id">{{ topic.title }}</option>
+          }
+        </select>
+      </div>
 
-  <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
-    
-    <div class="form-group">
-      <label for="topicId">Thème</label>
-      <select id="topicId" formControlName="topicId">
-        <option value="" disabled>Sélectionnez un thème</option>
-        @for (topic of topics; track topic.id) {
-          <option [value]="topic.id">{{ topic.title }}</option>
-        }
-      </select>
-    </div>
+      <div class="form-field">
+        <input id="titre" type="text" formControlName="titre" placeholder="Titre de l'article">
+      </div>
 
-    <div class="form-group">
-      <label for="titre">Titre de l'article</label>
-      <input id="titre" type="text" formControlName="titre" placeholder="Entrez un titre">
-    </div>
+      <div class="form-field">
+        <textarea id="contenu" formControlName="contenu" rows="8" placeholder="Contenu de l'article"></textarea>
+      </div>
 
-    <div class="form-group">
-      <label for="contenu">Contenu</label>
-      <textarea id="contenu" formControlName="contenu" rows="10" placeholder="Écrivez votre article ici..."></textarea>
-    </div>
+      <div class="form-actions">
+        <button type="submit" [disabled]="postForm.invalid" class="btn-submit">
+          Créer
+        </button>
+      </div>
 
-    <div class="actions">
-      <button type="submit" [disabled]="postForm.invalid" class="btn-submit">
-        Envoyer
-      </button>
-      <button type="button" (click)="postForm.reset()" class="btn-cancel">
-        Vider
-      </button>
-    </div>
-
-  </form>
+    </form>
+  </div>
 </div>

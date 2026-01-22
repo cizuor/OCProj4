@@ -34,8 +34,9 @@ h1, h2 {
   border-radius: 8px;
   font-weight: bold;
   cursor: pointer;
-  margin: 10px auto;
-  width: 200px;
+  margin: auto;
+  width: 40%;
+  text-align: center;
 }
 
 .separator {
@@ -60,5 +61,9 @@ h1, h2 {
 @media (max-width: 768px) {
   .topics-grid {
     grid-template-columns: 1fr; /* 1 colonne sur mobile */
+  }
+
+  .btn-save {
+    width: 60%;
   }
 }

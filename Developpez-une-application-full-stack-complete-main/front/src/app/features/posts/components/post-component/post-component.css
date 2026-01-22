@@ -1,0 +1,118 @@
+/* Conteneur de page identique aux autres formulaires */
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 2% 0;
+  box-sizing: border-box;
+}
+
+/* --- EN-TETE --- */
+.header-section {
+  width: 40%; /* Même largeur que le formulaire sur PC */
+  min-width: 350px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.btn-back {
+  width: 40px;
+  cursor: pointer;
+  position: absolute;
+  left: -60px; /* Place la flèche à gauche du titre */
+}
+
+h1 {
+  width: 100%;
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* --- FORMULAIRE --- */
+.form-wrapper {
+  width: 40%; 
+  min-width: 350px;
+}
+
+.form-field {
+  margin-bottom: 25px;
+}
+
+/* Style commun Select / Input / Textarea */
+.form-field input, 
+.form-field select, 
+.form-field textarea {
+  width: 100%;
+  padding: 15px;
+  border: 2px solid #7367cd; /* Bordure violette */
+  border-radius: 10px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  outline: none;
+  font-family: inherit;
+  color: #333;
+}
+
+.form-field textarea {
+  resize: none; /* Empêche le redimensionnement manuel pour garder le design propre */
+}
+
+/* Placeholder en gris clair */
+::placeholder {
+  color: #a0a0a0;
+}
+
+/* --- ACTIONS --- */
+.form-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.btn-submit {
+  background-color: #7367cd;
+  color: white;
+  border: none;
+  padding: 12px 0;
+  width: 180px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-submit:disabled {
+  background-color: #9e9e9e;
+  cursor: not-allowed;
+}
+
+/* --- RESPONSIVE MOBILE --- */
+@media (max-width: 768px) {
+  .header-section, .form-wrapper {
+    width: 90%;
+    flex-direction: column; 
+    align-items: flex-start; /* Aligné à gauche comme sur l'image */
+    gap: 20px;
+  }
+
+  .btn-back {
+    position: static; /* Remet la flèche dans le flux sur mobile */
+    margin-right: 10px;
+    width: 30px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    text-align: left; /* Aligné avec la flèche sur mobile */
+  }
+
+  .btn-submit {
+    width: 100%; /* Bouton plein écran sur mobile */
+  }
+}
