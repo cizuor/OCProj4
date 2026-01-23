@@ -1,8 +1,6 @@
 package com.openclassrooms.mddapi.security;
 
-import jakarta.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,18 +14,16 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.openclassrooms.mddapi.security.jwt.AuthTokenFilter;
+import com.openclassrooms.mddapi.security.jwt.JwtUtils;
 import com.openclassrooms.mddapi.security.services.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
 	
-	@Autowired
-    private UserDetailsServiceImpl userDetailsService;
-	
 	 @Bean
-    public AuthTokenFilter authenticationJwtTokenFilter() {
-        return new AuthTokenFilter();
+    public AuthTokenFilter authenticationJwtTokenFilter( JwtUtils jwtUtils, UserDetailsServiceImpl userDetailsService) {
+        return new AuthTokenFilter(jwtUtils, userDetailsService);
     }
 	 
 	@Bean
@@ -36,15 +32,6 @@ public class WebSecurityConfig {
     }
 	
 	
-	@Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        
-        authProvider.setUserDetailsService(userDetailsService); 
-        authProvider.setPasswordEncoder(passwordEncoder());    
-        
-        return authProvider;
-    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
@@ -53,7 +40,7 @@ public class WebSecurityConfig {
 	
 	
 	@Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http,AuthTokenFilter authTokenFilter,DaoAuthenticationProvider authProvider) throws Exception {
         http
         	.csrf(csrf -> csrf.disable())
             .cors(cors -> cors.configure(http))
@@ -66,8 +53,7 @@ public class WebSecurityConfig {
 
         http.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
         
-        http.authenticationProvider(authenticationProvider());
-        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

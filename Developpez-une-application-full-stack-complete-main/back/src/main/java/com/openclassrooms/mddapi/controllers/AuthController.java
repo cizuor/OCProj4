@@ -2,7 +2,6 @@ package com.openclassrooms.mddapi.controllers;
 
 import jakarta.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +17,17 @@ import com.openclassrooms.mddapi.services.AuthService;
 @RequestMapping("/api/auth")
 public class AuthController {
 	
-	 	@Autowired
-	    private AuthService authService;
+	    private final AuthService authService;
+	 	
+	 	
 
 
-	    @PostMapping("/login")
-	    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+	    public AuthController(AuthService authService) {
+			this.authService = authService;
+		}
+
+		@PostMapping("/login")
+	    public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
 	        Authentication authentication = authService.authenticate(loginRequest);
 	        String jwt = authService.generateToken(authentication);
@@ -35,7 +39,7 @@ public class AuthController {
 	    }
 
 	    @PostMapping("/register")
-	    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
+	    public ResponseEntity<MessageResponse> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
 	        try {
 	            authService.register(signUpRequest);
 	            return ResponseEntity.ok(new MessageResponse("User registered successfully!"));

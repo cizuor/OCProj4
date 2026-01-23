@@ -1,6 +1,5 @@
 package com.openclassrooms.mddapi.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -8,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.openclassrooms.mddapi.exception.BadRequestException;
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.payload.request.LoginRequest;
 import com.openclassrooms.mddapi.payload.request.SignUpRequest;
@@ -18,19 +18,29 @@ import com.openclassrooms.mddapi.security.jwt.JwtUtils;
 @Service
 public class AuthService {
 	
- 	@Autowired
-    private AuthenticationManager authenticationManager;
+ 	
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private JwtUtils jwtUtils;
+    private final JwtUtils jwtUtils;
+    
+    
+    
+    
 
-    public Authentication authenticate(LoginRequest loginRequest) {
+    public AuthService(AuthenticationManager authenticationManager, UserRepository userRepository,
+			PasswordEncoder passwordEncoder, JwtUtils jwtUtils) {
+		super();
+		this.authenticationManager = authenticationManager;
+		this.userRepository = userRepository;
+		this.passwordEncoder = passwordEncoder;
+		this.jwtUtils = jwtUtils;
+	}
+
+	public Authentication authenticate(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getLogin(), loginRequest.getPassword()));
 
@@ -43,11 +53,11 @@ public class AuthService {
     }
 
     public void register(SignUpRequest signUpRequest) {
-        if (userRepository.existsByPseudo(signUpRequest.getPseudo())) {
-            throw new RuntimeException("Error: Pseudo is already taken!");
+        if (Boolean.TRUE.equals(userRepository.existsByPseudo(signUpRequest.getPseudo()))) {
+            throw new BadRequestException("Error: Pseudo is already taken!");
         }
-        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            throw new RuntimeException("Error: Email is already in use!");
+        if (Boolean.TRUE.equals(userRepository.existsByEmail(signUpRequest.getEmail()))) {
+            throw new BadRequestException("Error: Email is already in use!");
         }
 
         User user = new User();

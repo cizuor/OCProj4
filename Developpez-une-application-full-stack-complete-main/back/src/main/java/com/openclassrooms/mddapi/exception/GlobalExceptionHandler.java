@@ -47,6 +47,12 @@ public class GlobalExceptionHandler {
 	                         .body(new MessageResponse("Email ou mot de passe incorrect"));
 	}
 	
+	@ExceptionHandler(BadRequestException.class)
+	public ResponseEntity<MessageResponse> handleBadRequest(BadRequestException ex) {
+	    return ResponseEntity.badRequest()
+	                         .body(new MessageResponse(ex.getMessage()));
+	}
+	
 	@ExceptionHandler(Exception.class)
     public ResponseEntity<MessageResponse> handleGlobal(Exception ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

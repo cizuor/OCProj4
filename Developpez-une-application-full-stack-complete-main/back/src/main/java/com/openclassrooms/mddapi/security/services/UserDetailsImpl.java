@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Objects;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.openclassrooms.mddapi.models.User;
@@ -81,5 +80,10 @@ public class UserDetailsImpl implements UserDetails {
 			return false;
 		UserDetailsImpl user = (UserDetailsImpl) o;
 		return Objects.equals(id, user.id);
+	}
+	
+	@Override
+	public int hashCode() {
+	    return Objects.hash(id);
 	}
 }

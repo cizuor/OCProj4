@@ -10,7 +10,6 @@ import jakarta.transaction.Transactional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.openclassrooms.mddapi.dto.CommentDTO;
@@ -25,23 +24,31 @@ import com.openclassrooms.mddapi.repository.UserRepository;
 
 @SpringBootTest
 @Transactional
-public class CommentServiceTest {
-	@Autowired
+class CommentServiceTest {
     private CommentService commentService;
 
-    @Autowired
-    private CommentRepository commentRepository;
+    private final CommentRepository commentRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private PostRepository postRepository;
+    private final PostRepository postRepository;
 
-    @Autowired
-    private TopicRepository themeRepository;
+    private final TopicRepository themeRepository;
+    
+    
+    
 
-    private User testUser;
+    public CommentServiceTest(CommentService commentService, CommentRepository commentRepository,
+			UserRepository userRepository, PostRepository postRepository, TopicRepository themeRepository) {
+		super();
+		this.commentService = commentService;
+		this.commentRepository = commentRepository;
+		this.userRepository = userRepository;
+		this.postRepository = postRepository;
+		this.themeRepository = themeRepository;
+	}
+
+	private User testUser;
     private Post testPost;
     private CommentDTO savedComment;
 
@@ -94,7 +101,6 @@ public class CommentServiceTest {
         List<CommentDTO> comments = commentService.findAll();
 
         // ASSERT
-        assertThat(comments).isNotEmpty();
         assertThat(comments).contains(savedComment);
     }
 

@@ -2,13 +2,9 @@ package com.openclassrooms.mddapi.services;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.Collections;
 
 import jakarta.persistence.EntityNotFoundException;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.openclassrooms.mddapi.dto.TopicDTO;
@@ -19,13 +15,17 @@ import com.openclassrooms.mddapi.repository.UserRepository;
 @Service
 public class TopicService {
 	
-	@Autowired
-	private TopicRepository themeRepository;
+	private final TopicRepository themeRepository;
 	
-	@Autowired
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
 	
 	
+	public TopicService(TopicRepository themeRepository, UserRepository userRepository) {
+		super();
+		this.themeRepository = themeRepository;
+		this.userRepository = userRepository;
+	}
+
 	public TopicDTO findByID(Long id,Long userId){
 		
 		Collection<Long> likedIds = (userId != null) ? userRepository.findSubscribedTopicIdsByUserId(userId) : Collections.emptySet();
@@ -47,8 +47,7 @@ public class TopicService {
         Collection<Long> likedIds = (userId != null) ? userRepository.findSubscribedTopicIdsByUserId(userId) : Collections.emptySet();
 
         return allThemes.stream()
-            .map(theme -> TopicDTO.fromEntity(theme, likedIds))
-            .collect(Collectors.toList());
+            .map(theme -> TopicDTO.fromEntity(theme, likedIds)).toList();
     }
 	
 	
@@ -57,7 +56,6 @@ public class TopicService {
 	    
 	    // On les transforme en DTO 
 	    return subscribedThemes.stream()
-	        .map(theme -> TopicDTO.fromEntity(theme, Collections.singletonList(theme.getId())))
-	        .collect(Collectors.toList());
+	        .map(theme -> TopicDTO.fromEntity(theme, Collections.singletonList(theme.getId()))).toList();
 	}
 }

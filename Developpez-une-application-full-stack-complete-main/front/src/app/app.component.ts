@@ -1,6 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { SessionService } from './core/services/session.service';
-import { Observable } from 'rxjs';
 import { AuthService } from './core/services/auth.service';
 
 @Component({
@@ -20,12 +19,28 @@ export class AppComponent implements OnInit {
     this.sessionService.logOut();
   }
 
+
+
+
   ngOnInit(): void {
+    this.autoLogin()
+  }
+
+
+  private autoLogin(): void {
     const token = localStorage.getItem('token');
+    
     if (token) {
+      // On appelle ta route /me pour récupérer les infos de l'utilisateur
       this.authService.me().subscribe({
-        next: (user) => this.sessionService.logIn(user),
-        error: () => this.sessionService.logOut() 
+        next: (user) => {
+          // On restaure la session dans le service
+          this.sessionService.logIn(user);
+        },
+        error: () => {
+          // Si le token est expiré ou invalide, on nettoie tout
+          this.sessionService.logOut();
+        }
       });
     }
   }

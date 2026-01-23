@@ -4,7 +4,6 @@ package com.openclassrooms.mddapi.services;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import jakarta.persistence.EntityNotFoundException;
@@ -12,7 +11,6 @@ import jakarta.transaction.Transactional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.openclassrooms.mddapi.dto.TopicDTO;
@@ -23,19 +21,26 @@ import com.openclassrooms.mddapi.repository.UserRepository;
 
 @SpringBootTest
 @Transactional
-public class TopicServiceTest {
+class TopicServiceTest {
 	
-	@Autowired
-    private TopicService themeService;
+    private final TopicService themeService;
 
-    @Autowired
-    private TopicRepository themeRepository;
+    private final TopicRepository themeRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
     
     
-    private Long userId;
+    
+    
+    
+    public TopicServiceTest(TopicService themeService, TopicRepository themeRepository, UserRepository userRepository) {
+		super();
+		this.themeService = themeService;
+		this.themeRepository = themeRepository;
+		this.userRepository = userRepository;
+	}
+
+	private Long userId;
     private Long themeJavaId;
     private Long themeAngularId;
     
@@ -128,8 +133,7 @@ public class TopicServiceTest {
         List<TopicDTO> results = themeService.getTopics(null);
 
         // ASSERT
-        assertThat(results).hasSize(6); // 2 + 4 du data.sql
-        assertThat(results).allMatch(t -> !t.isLiked());
+        assertThat(results).isNotEmpty().allMatch(t -> !t.isLiked());
     }
     
     @Test

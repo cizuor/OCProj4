@@ -1,12 +1,9 @@
 package com.openclassrooms.mddapi.controllers;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,26 +15,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.openclassrooms.mddapi.dto.CommentDTO;
-import com.openclassrooms.mddapi.dto.PostDTO;
-import com.openclassrooms.mddapi.models.Comment;
 import com.openclassrooms.mddapi.security.services.UserDetailsImpl;
 import com.openclassrooms.mddapi.services.CommentService;
-import com.openclassrooms.mddapi.services.PostService;
-import com.openclassrooms.mddapi.services.TopicService;
 
 @CrossOrigin // pour autoriser les requette venant de 4200 a atteindre 8080
 @RestController
 @RequestMapping("/api/commentaire")
 public class CommentController {
 
-	@Autowired
-	private PostService postService;
 	
-	@Autowired
-	private CommentService commentService;
+	private final CommentService commentService;
 	
+	
+	public CommentController( CommentService commentService) {
+		this.commentService = commentService;
+	}
+
+
 	@GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable("id") Long id) {
+    public ResponseEntity<CommentDTO> getById(@PathVariable("id") Long id) {
             CommentDTO comment = this.commentService.findByID(id);         
             return ResponseEntity.ok().body(comment);
     
@@ -53,7 +49,7 @@ public class CommentController {
 	
 	
 	@PostMapping("/article/{id}")
-	public ResponseEntity<?> create(@Valid @RequestBody CommentDTO commentDto,@PathVariable("id") Long postId){
+	public ResponseEntity<CommentDTO> create(@Valid @RequestBody CommentDTO commentDto,@PathVariable("id") Long postId){
 		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
 		

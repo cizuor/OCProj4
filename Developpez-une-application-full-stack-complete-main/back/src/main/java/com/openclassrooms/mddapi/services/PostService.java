@@ -1,12 +1,10 @@
 package com.openclassrooms.mddapi.services;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.access.AccessDeniedException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -21,37 +19,42 @@ import com.openclassrooms.mddapi.repository.UserRepository;
 @Service
 public class PostService {
 	
-	@Autowired
-	private PostRepository postRepository;
-	
-	@Autowired
-    private UserRepository userRepository;
+	private final PostRepository postRepository;
 
-    @Autowired
-    private TopicRepository themeRepository;
+    private final UserRepository userRepository;
+
+    private final TopicRepository themeRepository;
+    
+    private String strPostNotFound = "Post non trouvé";
+    
+    
 	
+	public PostService(PostRepository postRepository, UserRepository userRepository, TopicRepository themeRepository) {
+		super();
+		this.postRepository = postRepository;
+		this.userRepository = userRepository;
+		this.themeRepository = themeRepository;
+	}
+
 	public PostDTO findByID(Long id){
-		Post post = postRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Post non trouvé"));
+		Post post = postRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(strPostNotFound));
 		
 		return PostDTO.fromEntity(post);
 	}
 	
 	public List<PostDTO> findAll(){
 		return postRepository.findAll().stream()
-				.map(PostDTO::fromEntity)
-				.collect(Collectors.toList());
+				.map(PostDTO::fromEntity).toList();
 	}
 	
 	public List<PostDTO> findByThemeId(List<Long> listThemesId){
 		return postRepository.findByTopicIdIn(listThemesId).stream()
-				.map(PostDTO::fromEntity)
-				.collect(Collectors.toList());
+				.map(PostDTO::fromEntity).toList();
 	}
 	
 	public List<PostDTO> findByThemeIdOrderByCreateAtAsc(List<Long> listThemesId){
 		return postRepository.findByTopic_IdIn(listThemesId,Sort.by(Sort.Direction.ASC, "createdAt")).stream()
-				.map(PostDTO::fromEntity)
-				.collect(Collectors.toList());
+				.map(PostDTO::fromEntity).toList();
 	}
 	
 	public PostDTO create(PostDTO postDto) {
@@ -74,7 +77,7 @@ public class PostService {
 	
 	public void delete(Long id,Long userId) {
 		Post post = postRepository.findById(id)
-	            .orElseThrow(() -> new EntityNotFoundException("Post non trouvé"));
+	            .orElseThrow(() -> new EntityNotFoundException(strPostNotFound));
 		
 		if(!post.getAuteur().getId().equals(userId)) {
 			throw new AccessDeniedException("Vous n'avez pas l'autorisation de modifier ce post");
@@ -85,7 +88,7 @@ public class PostService {
 	public PostDTO update(Long id, PostDTO postDto, Long userId) {
 		
 		Post existingPost = postRepository.findById(id)
-	            .orElseThrow(() -> new EntityNotFoundException("Post non trouvé"));
+	            .orElseThrow(() -> new EntityNotFoundException(strPostNotFound));
 			
 		
 		if (!existingPost.getAuteur().getId().equals(userId)) {

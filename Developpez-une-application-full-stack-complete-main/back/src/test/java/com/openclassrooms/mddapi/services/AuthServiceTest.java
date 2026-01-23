@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -20,18 +19,26 @@ import com.openclassrooms.mddapi.repository.UserRepository;
 
 @SpringBootTest
 @Transactional
-public class AuthServiceTest {
+class AuthServiceTest {
 	
-	@Autowired
-    private AuthService authService;
+    private final AuthService authService;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
+    
+    
+    
 
-    @BeforeEach
+    public AuthServiceTest(AuthService authService, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+		super();
+		this.authService = authService;
+		this.userRepository = userRepository;
+		this.passwordEncoder = passwordEncoder;
+	}
+
+
+	@BeforeEach
     void cleanUp() {
         userRepository.deleteAll();
     }

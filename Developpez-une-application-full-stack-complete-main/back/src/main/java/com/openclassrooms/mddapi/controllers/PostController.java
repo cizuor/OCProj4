@@ -2,11 +2,9 @@ package com.openclassrooms.mddapi.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import jakarta.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -32,16 +30,23 @@ import com.openclassrooms.mddapi.services.TopicService;
 public class PostController {
 	
 	
-	@Autowired
-	private PostService postService;
+	private final PostService postService;
 	
-	@Autowired
-	private TopicService themeService;
+	private final TopicService themeService;
+	
+	
 
 
 	
+	public PostController(PostService postService, TopicService themeService) {
+		super();
+		this.postService = postService;
+		this.themeService = themeService;
+	}
+
+
 	@GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable("id") Long id) {
+    public ResponseEntity<PostDTO> getById(@PathVariable("id") Long id) {
             PostDTO post = this.postService.findByID(id);         
             return ResponseEntity.ok().body(post);
     
@@ -60,8 +65,7 @@ public class PostController {
         }
 		
 		List<Long> lTopicId = lTopic.stream()
-	            .map(TopicDTO::getId) 
-	            .collect(Collectors.toList());
+	            .map(TopicDTO::getId).toList();
 		if(sort.equals("desc")) {		
 			return ResponseEntity.ok().body(postService.findByThemeId(lTopicId));
 		}else {
@@ -79,7 +83,7 @@ public class PostController {
 	
 	
 	@PostMapping()
-	public ResponseEntity<?> create(@Valid @RequestBody PostDTO postDto ){
+	public ResponseEntity<PostDTO> create(@Valid @RequestBody PostDTO postDto ){
 		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
 		postDto.setUserID(userDetails.getId()); // on ne crée pas un post au nom d'un autre
@@ -88,7 +92,7 @@ public class PostController {
 	
 	
 	@PutMapping("{id}")
-	public ResponseEntity<?> update(@PathVariable("id") Long id,@Valid @RequestBody PostDTO postDto ){
+	public ResponseEntity<PostDTO> update(@PathVariable("id") Long id,@Valid @RequestBody PostDTO postDto ){
 		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
 		postDto.setUserID(userDetails.getId()); // on ne modifie pas un post au nom d'un autre
@@ -97,7 +101,7 @@ public class PostController {
 	
 	
 	@DeleteMapping("{id}")
-	public ResponseEntity<?> delete(@PathVariable("id") Long id){
+	public ResponseEntity<Void> delete(@PathVariable("id") Long id){
 		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
 		

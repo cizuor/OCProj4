@@ -1,11 +1,9 @@
 package com.openclassrooms.mddapi.services;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import jakarta.persistence.EntityNotFoundException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.openclassrooms.mddapi.dto.CommentDTO;
@@ -17,29 +15,33 @@ import com.openclassrooms.mddapi.repository.UserRepository;
 @Service
 public class CommentService {
 
-	@Autowired
-	private CommentRepository commentRepository;
+	private final CommentRepository commentRepository;
 	
-	@Autowired
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
 	
-	@Autowired
-	private PostRepository postRepository;
+	private final PostRepository postRepository;
+		
 	
+	public CommentService(CommentRepository commentRepository, UserRepository userRepository,
+			PostRepository postRepository) {
+		super();
+		this.commentRepository = commentRepository;
+		this.userRepository = userRepository;
+		this.postRepository = postRepository;
+	}
+
 	public CommentDTO findByID(Long id){
 		return CommentDTO.fromEntity(commentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Comment non trouvé")));
 	}
 	
 	public List<CommentDTO> findAll(){
 		return commentRepository.findAll().stream()
-				.map(CommentDTO::fromEntity)
-				.collect(Collectors.toList());
+				.map(CommentDTO::fromEntity).toList();
 	}
 	
 	public List<CommentDTO> findByPostId(Long postId){
 		return commentRepository.findByPostIdOrderByCreatedAtDesc(postId).stream()
-				.map(CommentDTO::fromEntity)
-				.collect(Collectors.toList());
+				.map(CommentDTO::fromEntity).toList();
 	}
 	
 	public CommentDTO create(CommentDTO commentDto, Long postId, Long userId) {

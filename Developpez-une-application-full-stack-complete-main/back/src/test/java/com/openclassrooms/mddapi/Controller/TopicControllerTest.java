@@ -7,11 +7,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -29,20 +27,28 @@ import com.openclassrooms.mddapi.security.services.UserDetailsImpl;
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class TopicControllerTest {
-	@Autowired
-    private MockMvc mockMvc;
+class TopicControllerTest {
+    private final MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
-    @Autowired
-    private TopicRepository topicRepository;
+    private final TopicRepository topicRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    
+    
+    
 
-    private UserDetailsImpl userDetails;
+    public TopicControllerTest(MockMvc mockMvc, ObjectMapper objectMapper, TopicRepository topicRepository,
+			UserRepository userRepository) {
+		super();
+		this.mockMvc = mockMvc;
+		this.objectMapper = objectMapper;
+		this.topicRepository = topicRepository;
+		this.userRepository = userRepository;
+	}
+
+	private UserDetailsImpl userDetails;
     private Topic savedTopic;
 
     @BeforeEach

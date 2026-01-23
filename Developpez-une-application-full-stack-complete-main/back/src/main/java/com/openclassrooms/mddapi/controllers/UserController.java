@@ -4,7 +4,6 @@ import java.util.List;
 
 import jakarta.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -28,14 +27,19 @@ import com.openclassrooms.mddapi.services.UserService;
 @RequestMapping("/api/utilisateur")
 public class UserController {
 	
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
 	
-	@Autowired
-	private TopicService topicService;
+	private final TopicService topicService;
 	
+	
+	
+	public UserController(UserService userService, TopicService topicService) {
+		this.userService = userService;
+		this.topicService = topicService;
+	}
+
 	@GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable("id") Long id) {
+    public ResponseEntity<UserDTO> findById(@PathVariable("id") Long id) {
             UserDTO user = this.userService.getUserById(id);
             user.setEmail("hide@information.com");            
             return ResponseEntity.ok().body(user);
@@ -53,7 +57,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/subscribe/{topicId}")
-	public ResponseEntity<List<TopicDTO>> PostSubTheme(@PathVariable("topicId") Long id) {
+	public ResponseEntity<List<TopicDTO>> postSubTheme(@PathVariable("topicId") Long id) {
 		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
 		

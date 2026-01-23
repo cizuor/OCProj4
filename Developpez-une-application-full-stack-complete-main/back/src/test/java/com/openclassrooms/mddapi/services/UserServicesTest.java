@@ -20,7 +20,7 @@ import com.openclassrooms.mddapi.repository.UserRepository;
 
 @SpringBootTest
 @Transactional // Très important : annule les modifs en BDD après chaque test
-public class UserServicesTest {
+class UserServicesTest {
 	
 	@Autowired
     private UserService userService;

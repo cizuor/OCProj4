@@ -4,7 +4,6 @@ package com.openclassrooms.mddapi.Controller;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,7 +23,7 @@ import com.openclassrooms.mddapi.services.AuthService;
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class AuthControllerTest {
+class AuthControllerTest {
 	@Autowired
     private MockMvc mockMvc;
 

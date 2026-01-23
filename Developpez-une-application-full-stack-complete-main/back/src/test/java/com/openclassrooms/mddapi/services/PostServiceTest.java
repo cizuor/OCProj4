@@ -11,7 +11,6 @@ import jakarta.transaction.Transactional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.openclassrooms.mddapi.dto.PostDTO;
@@ -22,23 +21,34 @@ import com.openclassrooms.mddapi.repository.PostRepository;
 import com.openclassrooms.mddapi.repository.TopicRepository;
 import com.openclassrooms.mddapi.repository.UserRepository;
 
+import static org.awaitility.Awaitility.await;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
 @SpringBootTest
 @Transactional
-public class PostServiceTest {
+class PostServiceTest {
 	
-	@Autowired
-    private PostService postService;
+    private final PostService postService;
 	
-	@Autowired
-    private PostRepository postRepository;
+	private final PostRepository postRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private TopicRepository themeRepository;
+    private final TopicRepository themeRepository;
+    
+    
+    
+    
 
-    private User author;
+    public PostServiceTest(PostService postService, PostRepository postRepository, UserRepository userRepository,
+			TopicRepository themeRepository) {
+		this.postService = postService;
+		this.postRepository = postRepository;
+		this.userRepository = userRepository;
+		this.themeRepository = themeRepository;
+	}
+
+	private User author;
     private Topic topicJava;
     private Topic topicAngular;
     private Post savedPost;
@@ -88,7 +98,6 @@ public class PostServiceTest {
         List<PostDTO> posts = postService.findAll();
         // ASSERT
         assertThat(posts).isNotEmpty();
-        assertThat(posts.size()).isGreaterThanOrEqualTo(1);
     }
 
     @Test
@@ -117,7 +126,6 @@ public class PostServiceTest {
     	// ACT
         List<PostDTO> results = postService.findByThemeId(Arrays.asList(javaId));
         // ASSERT
-        assertThat(results).isNotEmpty();
         assertThat(results).allMatch(post -> post.getTopicId().equals(javaId));
         assertThat(results).extracting(PostDTO::getTitre)
         .contains("Premier Post");
@@ -157,16 +165,19 @@ public class PostServiceTest {
     
     @Test
     void delete_ShouldReturnError() {
+    	
+    	Long postId = savedPost.getId();
+        Long wrongUserId = savedPost.getAuteur().getId() + 1;
     	// ACT && ASSERT
     	assertThrows(RuntimeException.class, () -> {
-    		postService.delete(savedPost.getId(),savedPost.getAuteur().getId()+1);
+    		postService.delete(postId,wrongUserId);
         });
     }
 
     @Test
-    void findByThemeIdOrderByCreateAtAsc_ShouldReturnSortedPosts() throws InterruptedException {
+    void findByThemeIdOrderByCreateAtAsc_ShouldReturnSortedPosts() {
         // On crée un deuxième post un peu plus tard (on attend 10ms pour être sûr de la différence de timestamp)
-        Thread.sleep(100);
+    	await().pollDelay(100, MILLISECONDS).until(() -> true);
         // ARRANGE
         List<Long> topicIds = Arrays.asList(topicJava.getId());
         int countBefore = postService.findByThemeId(topicIds).size();

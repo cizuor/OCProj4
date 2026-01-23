@@ -10,7 +10,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -28,21 +27,29 @@ import com.openclassrooms.mddapi.security.services.UserDetailsImpl;
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class UserControllerTest {
+class UserControllerTest {
 	
-	@Autowired
-    private MockMvc mockMvc;
+    private final MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private TopicRepository topicRepository;
+    private final TopicRepository topicRepository;
+    
+    
+    
 
-    private User testUser;
+    public UserControllerTest(MockMvc mockMvc, ObjectMapper objectMapper, UserRepository userRepository,
+			TopicRepository topicRepository) {
+		super();
+		this.mockMvc = mockMvc;
+		this.objectMapper = objectMapper;
+		this.userRepository = userRepository;
+		this.topicRepository = topicRepository;
+	}
+
+	private User testUser;
     private UserDetailsImpl userDetails;
     private Topic testTopic;
 

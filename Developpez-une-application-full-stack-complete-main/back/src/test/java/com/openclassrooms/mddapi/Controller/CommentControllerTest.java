@@ -6,7 +6,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 
 import java.util.Collections;
 
@@ -36,7 +35,7 @@ import com.openclassrooms.mddapi.security.services.UserDetailsImpl;
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class CommentControllerTest {
+class CommentControllerTest {
 
 	
 	@Autowired
@@ -96,8 +95,6 @@ public class CommentControllerTest {
 
     @Test
     void getById_ShouldReturnComment() throws Exception {
-    	// ARRANGE
-    	UserDetailsImpl userDetails = UserDetailsImpl.build(testUser);
     	
     	// ACT & ASSERT
         mockMvc.perform(get("/api/commentaire/" + testComment.getId()))

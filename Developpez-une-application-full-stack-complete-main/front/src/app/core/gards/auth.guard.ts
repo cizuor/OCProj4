@@ -10,8 +10,15 @@ export const authGuard: CanActivateFn = () => {
   if (sessionService.isLogged) {
     return true; // Accès autorisé
   }
+  // 2. Si on vient de rafraîchir la page (F5), on vérifie le localStorage
+  const token = localStorage.getItem('token');
+  if (token) {
+    // On laisse passer. AppComponent s'occupera de re-remplir 
+    // le SessionService en arrière-plan.
+    return true; 
+  }
 
-  // 2. Sinon, on le redirige vers la page de connexion
-  router.navigate(['/login']);
+  // 3. Sinon, on le redirige vers la page de connexion
+  router.navigate(['']);
   return false; // Accès refusé
 };

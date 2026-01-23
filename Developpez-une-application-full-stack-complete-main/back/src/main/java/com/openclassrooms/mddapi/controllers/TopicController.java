@@ -4,7 +4,6 @@ import java.util.List;
 
 import jakarta.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,11 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.openclassrooms.mddapi.dto.CommentDTO;
-import com.openclassrooms.mddapi.dto.PostDTO;
 import com.openclassrooms.mddapi.dto.TopicDTO;
 import com.openclassrooms.mddapi.security.services.UserDetailsImpl;
-import com.openclassrooms.mddapi.services.PostService;
 import com.openclassrooms.mddapi.services.TopicService;
 
 @CrossOrigin // pour autoriser les requette venant de 4200 a atteindre 8080
@@ -28,20 +24,23 @@ import com.openclassrooms.mddapi.services.TopicService;
 public class TopicController {
 	
 	
-	@Autowired
-	private PostService postService;
+	private final TopicService topicService;
 	
-	@Autowired
-	private TopicService topicService;
+	
 
 	
 	
+	public TopicController(TopicService topicService) {
+		super();
+		this.topicService = topicService;
+	}
+
 	@GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable("id") Long id) {
+    public ResponseEntity<TopicDTO> getById(@PathVariable("id") Long id) {
 		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
-        TopicDTO theme = this.topicService.findByID(id,userDetails.getId());         
-        return ResponseEntity.ok().body(theme);
+        TopicDTO topic = this.topicService.findByID(id,userDetails.getId());         
+        return ResponseEntity.ok().body(topic);
 	}
 	
 	@GetMapping()
@@ -62,8 +61,8 @@ public class TopicController {
 	
 	
 	@PostMapping()
-	public ResponseEntity<?> create(@Valid @RequestBody TopicDTO themeDto ){
-		return ResponseEntity.ok().body(topicService.create(themeDto));
+	public ResponseEntity<TopicDTO> create(@Valid @RequestBody TopicDTO topicDto ){
+		return ResponseEntity.ok().body(topicService.create(topicDto));
 	}
 	
 	
