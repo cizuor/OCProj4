@@ -11,6 +11,7 @@ import jakarta.transaction.Transactional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.openclassrooms.mddapi.dto.PostDTO;
@@ -39,7 +40,7 @@ class PostServiceTest {
     
     
     
-
+    @Autowired
     public PostServiceTest(PostService postService, PostRepository postRepository, UserRepository userRepository,
 			TopicRepository themeRepository) {
 		this.postService = postService;

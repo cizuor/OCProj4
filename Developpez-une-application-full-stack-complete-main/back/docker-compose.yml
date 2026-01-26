@@ -1,0 +1,32 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: mdd-mysql
+    restart: always
+    environment:
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - "3307:3306"
+    volumes:
+      - mdd_sql_data:/var/lib/mysql
+
+  api:
+    build: .
+    container_name: mdd-app-back
+    ports:
+      - "9000:9000"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - TOKEN_SECRET=${TOKEN_SECRET}
+    depends_on:
+      - db
+
+volumes:
+  mdd_sql_data:

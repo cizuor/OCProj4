@@ -14,10 +14,18 @@ describe('TopicCardComponent', () => {
 
     fixture = TestBed.createComponent(TopicCardComponent);
     component = fixture.componentInstance;
+
+    component.topic = { 
+      id: 1, 
+      title: 'Test', 
+      description: 'Desc', 
+      liked: false 
+    };
     fixture.detectChanges();
   });
 
   it('should create', () => {
+
     expect(component).toBeTruthy();
   });
 });

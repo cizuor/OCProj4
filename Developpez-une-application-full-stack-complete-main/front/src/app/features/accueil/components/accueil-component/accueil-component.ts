@@ -14,8 +14,10 @@ export class AccueilComponent implements OnInit{
 
   ngOnInit() {
     // Si on arrive sur l'accueil mais qu'on est déjà logué
-    if (this.sessionService.isLogged) {
-      this.router.navigate(['/articles']);
-    }
+    this.sessionService.$isLogged().subscribe((logged) => {
+      if (logged) {
+        this.router.navigate(['/articles']);
+      }
+    });
   }
 }

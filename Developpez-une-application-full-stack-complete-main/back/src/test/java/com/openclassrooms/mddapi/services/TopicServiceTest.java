@@ -11,6 +11,7 @@ import jakarta.transaction.Transactional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.openclassrooms.mddapi.dto.TopicDTO;
@@ -32,7 +33,7 @@ class TopicServiceTest {
     
     
     
-    
+    @Autowired
     public TopicServiceTest(TopicService themeService, TopicRepository themeRepository, UserRepository userRepository) {
 		super();
 		this.themeService = themeService;

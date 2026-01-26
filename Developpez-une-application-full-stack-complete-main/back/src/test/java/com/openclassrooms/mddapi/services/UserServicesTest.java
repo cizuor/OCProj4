@@ -10,8 +10,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.openclassrooms.mddapi.dto.UserDTO;
+import com.openclassrooms.mddapi.exception.BadRequestException;
 import com.openclassrooms.mddapi.models.Topic;
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.payload.request.UpdateUserRequest;
@@ -30,6 +32,9 @@ class UserServicesTest {
 
     @Autowired
     private TopicRepository themeRepository;
+    
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
     
     
     private User testUser;
@@ -89,6 +94,58 @@ class UserServicesTest {
         User inDb = userRepository.findById(testUser.getId()).get();
         assertThat(inDb.getPseudo()).isEqualTo("NewPseudo");
     }
+    
+    @Test
+    void update_ShouldChangePassword_WhenPasswordIsValid() {
+        // ARRANGE
+        UpdateUserRequest req = new UpdateUserRequest();
+        req.setPseudo("newPseudo");
+        req.setEmail("test@test.com");
+        req.setPassword("newPassword123"); // Mot de passe valide
+
+        // ACT
+        userService.update(testUser.getId(), req);
+
+        // ASSERT
+        User inDb = userRepository.findById(testUser.getId()).get();
+        // On vérifie que le mot de passe en base a été modifié (il doit être hashé)
+        assertThat(inDb.getPassword()).startsWith("$2a$"); 
+        // On vérifie que BCrypt reconnaît le nouveau mot de passe
+        assertThat(passwordEncoder.matches("newPassword123", inDb.getPassword())).isTrue();
+    }
+    
+    
+    @Test
+    void update_ShouldThrowException_WhenPasswordIsTooShort() {
+        // ARRANGE
+        UpdateUserRequest req = new UpdateUserRequest();
+        req.setPseudo("newPseudo");
+        req.setEmail("test@test.com");
+        req.setPassword("123"); // Trop court
+
+        // ACT & ASSERT
+        assertThrows(BadRequestException.class, () -> {
+            userService.update(testUser.getId(), req);
+        });
+    }
+    
+    
+    @Test
+    void update_ShouldNotChangePassword_WhenPasswordIsEmpty() {
+        // ARRANGE
+        String oldPassword = testUser.getPassword();
+        UpdateUserRequest req = new UpdateUserRequest();
+        req.setPseudo("newPseudo");
+        req.setEmail("test@test.com");
+        req.setPassword(""); // Vide
+
+        // ACT
+        userService.update(testUser.getId(), req);
+
+        // ASSERT
+        User inDb = userRepository.findById(testUser.getId()).get();
+        assertThat(inDb.getPassword()).isEqualTo(oldPassword); // Le MDP n'a pas bougé
+    }
 
     @Test
     void subscribe_ShouldAddThemeToUser() {
@@ -115,5 +172,21 @@ class UserServicesTest {
         User updatedUser = userRepository.findById(testUser.getId()).get();
         
         assertThat(updatedUser.getAbonnements()).isEmpty();
+    }
+    
+    @Test
+    void subscribe_ShouldThrowException_WhenTopicNotFound() {
+        // ACT & ASSERT
+        assertThrows(EntityNotFoundException.class, () -> {
+            userService.subscribe(testUser.getId(), 999L); // ID topic inexistant
+        });
+    }
+
+    @Test
+    void unsubscribe_ShouldThrowException_WhenTopicNotFound() {
+        // ACT & ASSERT
+        assertThrows(EntityNotFoundException.class, () -> {
+            userService.unsubscribe(testUser.getId(), 999L);
+        });
     }
 }

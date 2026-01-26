@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.openclassrooms.mddapi.dto.CommentDTO;
@@ -37,7 +38,7 @@ class CommentServiceTest {
     
     
     
-
+    @Autowired
     public CommentServiceTest(CommentService commentService, CommentRepository commentRepository,
 			UserRepository userRepository, PostRepository postRepository, TopicRepository themeRepository) {
 		super();

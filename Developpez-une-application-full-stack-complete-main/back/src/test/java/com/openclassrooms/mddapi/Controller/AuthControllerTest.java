@@ -107,6 +107,7 @@ class AuthControllerTest {
     	// ARRANGE
         SignUpRequest register = new SignUpRequest();
         register.setPseudo("WrongPwdUser");
+        
         register.setEmail("wrong@test.com");
         register.setPassword("correct_password");
         authService.register(register);

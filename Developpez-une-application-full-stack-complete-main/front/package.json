@@ -29,7 +29,7 @@
     "@angular/compiler-cli": "^20.3.13",
     "@cypress/code-coverage": "^3.14.7",
     "@jsdevtools/coverage-istanbul-loader": "^3.0.5",
-    "@types/jasmine": "~4.0.0",
+    "@types/jasmine": "~4.3.0",
     "cypress": "^15.9.0",
     "istanbul-lib-coverage": "^3.2.2",
     "jasmine-core": "~4.3.0",
