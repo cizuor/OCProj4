@@ -41,13 +41,13 @@ describe('Post List (Feed) E2E Tests', () => {
 
   it('should display posts after subscribing to a topic', () => {
     // 1. Aller sur la page des thèmes pour s'abonner
-    cy.get('a[routerLink="/themes"]').click();
+    cy.get('a[routerLink="/themes"]:visible').click();
     
     // 2. S'abonner au premier thème (ex: Java dans ton data.sql)
     cy.get('app-topic-card').first().find('button').contains("S'abonner").click();
 
     // 3. Revenir sur la liste des articles
-    cy.get('a[routerLink="/articles"]').click();
+    cy.get('a[routerLink="/articles"]:visible').click();
 
     // 4. Vérifier qu'au moins un article est maintenant visible
     // (En supposant que ton data.sql contient un article pour le thème choisi)
@@ -55,19 +55,25 @@ describe('Post List (Feed) E2E Tests', () => {
     
     // Vérifier les informations de la carte
     cy.get('.post-card').first().within(() => {
-      cy.get('h2').should('not.be.empty');
-      cy.get('p').contains('Thème :').should('be.visible');
+      // On vérifie le titre avec la classe .post-title
+      cy.get('.post-title').should('not.be.empty');
+
+      // On vérifie que l'auteur est présent (classe .author)
+      cy.get('.author').should('not.be.empty');
+
+      // On vérifie que le contenu est présent (classe .post-body)
+      cy.get('.post-body').should('not.be.empty');
     });
   });
 
   it('should navigate to post details when clicking Read More', () => {
     // 1. On s'abonne pour avoir un article
-    cy.get('a[routerLink="/themes"]').click();
+    cy.get('a[routerLink="/themes"]:visible').click();
     cy.get('app-topic-card').first().find('button').contains("S'abonner").click();
-    cy.get('a[routerLink="/articles"]').click();
+    cy.get('a[routerLink="/articles"]:visible').click();
 
     // 2. On clique sur le bouton "Lire la suite"
-    cy.get('.post-card').first().find('button').contains('Lire la suite').click();
+    cy.get('.post-card').first().click();
 
     // 3. On vérifie qu'on arrive sur la page de détail (URL contient l'ID)
     cy.url().should('match', /\/articles\/\d+/);

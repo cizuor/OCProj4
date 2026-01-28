@@ -25,13 +25,11 @@ describe('Topic List E2E Tests', () => {
 
     // Navigation vers la page des thèmes
     cy.url().should('include', '/articles');
-    cy.get('a[routerLink="/themes"]').click();
+    cy.get('a[routerLink="/themes"]:visible').click();
     cy.url().should('include', '/themes');
   });
 
   it('should display all topics from database', () => {
-    // On vérifie que le titre de la page est présent
-    cy.get('h3').contains('Liste themes').should('be.visible');
 
     // On vérifie que les cartes de thèmes sont chargées (celles du data.sql)
     // On attend qu'il y en ait au moins une

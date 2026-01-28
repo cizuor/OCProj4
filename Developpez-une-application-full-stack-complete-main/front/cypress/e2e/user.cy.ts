@@ -22,14 +22,14 @@ describe('User Profile E2E Tests', () => {
     cy.get('button[type="submit"]').click();
     cy.url().should('include', '/articles');
 
-    cy.get('a[routerLink="/themes"]').click();
+    cy.get('a[routerLink="/themes"]:visible').click();
     // On clique sur le premier bouton "S'abonner" disponible
     cy.get('app-topic-card').first().find('button').contains("S'abonner").click();
     // On attend que le bouton passe en "Déjà abonné" (ton bouton gris)
     cy.get('app-topic-card').first().find('button').should('be.disabled');
 
     // Vérifier qu'on est connecté et aller sur le profil
-    cy.get('a[routerLink="/profil"]').click(); // Adapte le sélecteur si besoin
+    cy.get('.user-icon:visible').click();
     cy.url().should('include', '/profil');
   });
 
@@ -59,7 +59,7 @@ describe('User Profile E2E Tests', () => {
     cy.get('input[formControlName="password"]').type(testUser.mdp);
     cy.get('button[type="submit"]').click();
 
-    cy.get('a[routerLink="/profil"]').click(); // Adapte le sélecteur si besoin
+    cy.get('.user-icon:visible').click();
     cy.url().should('include', '/profil');
 
 

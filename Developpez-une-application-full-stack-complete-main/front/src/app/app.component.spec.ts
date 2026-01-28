@@ -28,6 +28,7 @@ describe('AppComponent', () => {
   };
 
   beforeEach(async () => {
+    localStorage.clear();
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       declarations: [AppComponent],
@@ -49,7 +50,10 @@ describe('AppComponent', () => {
     localStorage.clear();
   });
 
-  
+  afterEach(() => {
+    localStorage.clear();
+    jasmine.getEnv().allowRespy(true);
+  });
 
   it('should create the app', () => {
     //const fixture = TestBed.createComponent(AppComponent);
@@ -86,7 +90,7 @@ describe('AppComponent', () => {
   it('should not call me() if no token is found in localStorage', () => {
     // ARRANGE
     localStorage.removeItem('token');
-
+    (authService.me as jasmine.Spy).calls.reset();
     // ACT
     component.ngOnInit();
 

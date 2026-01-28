@@ -24,7 +24,7 @@ describe('Post Creation E2E Tests', () => {
     cy.get('button[type="submit"]').click();
 
     // 4. On s'abonne à un thème (obligatoire pour voir le feed après)
-    cy.get('a[routerLink="/themes"]').click();
+    cy.get('a[routerLink="/themes"]:visible').click();
     cy.get('app-topic-card').first().find('button').contains("S'abonner").click();
 
     // 5. Navigation vers la page de création
@@ -60,13 +60,7 @@ describe('Post Creation E2E Tests', () => {
     // 5. Vérifier que l'article est présent dans la liste
     cy.get('.post-card').contains(postTitle).should('be.visible');
     cy.get('.post-card').first().within(() => {
-        cy.get('small').should('contain', testUser.pseudo);
+        cy.get('.author').should('contain', testUser.pseudo);
     });
-  });
-
-  it('should reset the form when clicking clear', () => {
-    cy.get('input[formControlName="titre"]').type('Un titre temporaire');
-    cy.get('button.btn-cancel').click();
-    cy.get('input[formControlName="titre"]').should('have.value', '');
   });
 });

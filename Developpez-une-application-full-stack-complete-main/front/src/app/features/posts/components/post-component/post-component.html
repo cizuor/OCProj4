@@ -11,8 +11,8 @@
       <div class="form-field">
         <select id="topicId" formControlName="topicId">
           <option value="" disabled selected>Sélectionner un thème</option>
-          @for (topic of topics; track topic.id) {
-            <option [value]="topic.id">{{ topic.title }}</option>
+          @for (topic of topics; track $index) {
+            <option [value]="topic?.id">{{ topic?.title }}</option>
           }
         </select>
       </div>

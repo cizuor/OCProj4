@@ -88,6 +88,20 @@ le lancement se fait aussi via docker
 docker-compose up -d
 ```
 
+1. se connecter à la base de données. Tapez la commande ci-dessous
+
+    ```
+    mysql -u user_test -p
+    ```
+    L'invite de commande demandera le mot de passe. Il est : ```test_password```.
+
+2. Se connecter au schéma de base de données `mdd_db`. Dans l'invite de commande, tapez la commande ci-dessous :
+
+```
+use mdd_db;
+```
+
+
 ### 2. Configuration du Frontend
 ```bash
 # Aller dans le dossier front
