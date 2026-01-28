@@ -133,7 +133,15 @@ npx cypress run
 
 
 # Lancer les tests Cypress avec le coverage
-npx ng run mdd-client:serve-coverage
+```bash
+#lance le serveur angular mais pret pour le coverage
+npx ng run mdd-client:serve-coverage  
+
+#dans un autre terminal lancer les test
+npx cypress run
+```
+
+puis fichier dans front/coverage/lcov-report/index.html
 
 
 
@@ -154,6 +162,11 @@ npx ng run mdd-client:serve-coverage
 
 
 ### EndPoint backend
+
+le plus simple est 
+http://localhost:9000/swagger-ui/index.html#/
+quand le serveur est en route
+sinon voici la liste
 ```text
 
 #Authentification

@@ -122,10 +122,11 @@ class UserServicesTest {
         req.setPseudo("newPseudo");
         req.setEmail("test@test.com");
         req.setPassword("123"); // Trop court
+        Long userId = testUser.getId();
 
         // ACT & ASSERT
         assertThrows(BadRequestException.class, () -> {
-            userService.update(testUser.getId(), req);
+            userService.update(userId, req);
         });
     }
     
@@ -138,12 +139,14 @@ class UserServicesTest {
         req.setPseudo("newPseudo");
         req.setEmail("test@test.com");
         req.setPassword(""); // Vide
+        
+        Long userId = testUser.getId();
 
         // ACT
         userService.update(testUser.getId(), req);
 
         // ASSERT
-        User inDb = userRepository.findById(testUser.getId()).get();
+        User inDb = userRepository.findById(userId).get();
         assertThat(inDb.getPassword()).isEqualTo(oldPassword); // Le MDP n'a pas bougé
     }
 
@@ -176,17 +179,21 @@ class UserServicesTest {
     
     @Test
     void subscribe_ShouldThrowException_WhenTopicNotFound() {
+    	Long userId = testUser.getId();
+        Long nonExistentTopicId = 999L;
         // ACT & ASSERT
         assertThrows(EntityNotFoundException.class, () -> {
-            userService.subscribe(testUser.getId(), 999L); // ID topic inexistant
+            userService.subscribe(userId, nonExistentTopicId); // ID topic inexistant
         });
     }
 
     @Test
     void unsubscribe_ShouldThrowException_WhenTopicNotFound() {
+    	Long userId = testUser.getId();
+        Long nonExistentTopicId = 999L;
         // ACT & ASSERT
         assertThrows(EntityNotFoundException.class, () -> {
-            userService.unsubscribe(testUser.getId(), 999L);
+            userService.unsubscribe(userId, nonExistentTopicId);
         });
     }
 }
