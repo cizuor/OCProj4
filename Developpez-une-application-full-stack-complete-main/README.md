@@ -88,13 +88,22 @@ ng serve
 Les tests sont réalisés avec JUnit 5 et Mockito. La base de données H2 assure l'isolation des tests d'intégration.
 
 # Lancer l'intégralité des tests Java avec le rapport de couverture JaCoCo
+Dans le dossier back
+```bash
 mvn clean test jacoco:report
-
+```
 ## Frontend & E2E (Cypress)
+Dans le dossier front
+# Lancer les test Unitaire front
+```bash
+ng test --no-watch --code-coverage
+```
+
 
 # Lancer les tests Cypress en mode console
-cd front
+```bash
 npx cypress run
+```
 
 
 # Lancer les tests Cypress avec le coverage
