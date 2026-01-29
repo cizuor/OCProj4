@@ -1,0 +1,5 @@
+/back/target/
+/front/node_modules/
+/front/dist/
+/front/coverage/
+.env
