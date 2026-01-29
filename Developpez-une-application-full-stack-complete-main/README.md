@@ -99,7 +99,6 @@ Dans le dossier front
 ng test --no-watch --code-coverage
 ```
 
-
 # Lancer les tests Cypress en mode console
 ```bash
 npx cypress run
